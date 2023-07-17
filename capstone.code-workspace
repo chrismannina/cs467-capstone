@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../cs467-dev"
+		},
+		{
+			"path": "../openai-cookbook"
+		},
+		{
+			"path": "../cs467"
+		}
+	],
+	"settings": {}
+}
