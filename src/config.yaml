@@ -1,0 +1,13 @@
+# LLM
+llm_model: gpt-3.5-turbo
+temperature: 0
+
+# Embedding
+vectorstore: FAISS
+embedding_model: openai
+
+# Document
+document_path: /Users/chrismannina/cs-projects/school/cs467-capstone/files/mm_htn_guidelines.pdf
+split_method: recursive
+chunk_size: 1000
+chunk_overlap: 200
