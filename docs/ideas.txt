@@ -1,0 +1,8 @@
+- https://blog.langchain.dev/improving-document-retrieval-with-contextual-compression/
+- can add a document compressor - instead of immediately returning retrieved documents as-is, 
+we can compress them using the context of the given query so that only the relevant information 
+is returned
+
+
+plan 
+-  
