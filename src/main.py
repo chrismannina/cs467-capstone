@@ -32,7 +32,5 @@ def main():
         print("*******")
     # print(db.similarity_search_with_score("Cost of atenolol", 10))
  
-
-
 if __name__ == "__main__":
     main()

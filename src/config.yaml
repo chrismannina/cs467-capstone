@@ -4,7 +4,7 @@ temperature: 0
 
 # Embedding
 vectorstore: FAISS
-embedding_model: openai
+embedding_model: OpenAIEmbeddings
 
 # Document
 document_path: /Users/chrismannina/cs-projects/school/cs467-capstone/files/mm_htn_guidelines.pdf
