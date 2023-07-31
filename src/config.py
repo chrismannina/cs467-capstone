@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 dotenv_path = "../.env"
 
+
 class Config:
     _instance = None # Holds single instance of Config once created
 
@@ -49,3 +50,4 @@ class Config:
     def get_env_value(self, key):
         # Get environment variable from key name (e.g. OPENAI_API_KEY)
         return os.getenv(key)
+    

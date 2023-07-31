@@ -4,6 +4,26 @@ from config import Config
 from document import Document
 from vectorstore import Vectorstore
 
+        
+# def main():
+#     # Load configuration
+#     config = Config("config.yaml")
+    
+#     # Load and split document
+#     doc = Document(
+#         document_path=config.filepath, 
+#         split_method=config.split_method, 
+#         chunk_size=int(config.chunk_size),
+#         chunk_overlap=int(config.chunk_overlap)
+#         )
+    
+#     # Create vectorstore
+#     db = Vectorstore()
+#     if check_if_files_exist():
+#         db.load()
+#     else: 
+#         db.create_from_docs(doc.get_split_document())
+#         db.save()
 
 def check_if_files_exist():
     directory = "db"
@@ -14,26 +34,6 @@ def check_if_files_exist():
         if all(os.path.isfile(os.path.join(directory, file)) for file in files):
             return True
     return False
-        
-def main():
-    # Load configuration
-    config = Config("config.yaml")
-    
-    # Load and split document
-    doc = Document(
-        document_path=config.filepath, 
-        split_method=config.split_method, 
-        chunk_size=int(config.chunk_size),
-        chunk_overlap=int(config.chunk_overlap)
-        )
-    
-    # Create vectorstore
-    db = Vectorstore()
-    if check_if_files_exist():
-        db.load()
-    else: 
-        db.create_from_docs(doc.get_split_document())
-        db.save()
 
 def example1():
     # Load configuration
@@ -83,7 +83,7 @@ def example2():
         print("Chunk Document: ", chunks[i])
         print("*******")
     
-       # Create vectorstore
+    # Create vectorstore
     db = Vectorstore()
     if check_if_files_exist():
         db.load()
