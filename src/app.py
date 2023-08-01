@@ -1,73 +1,65 @@
 import gradio as gr
 
+from config import Config
+from document import Document
+from vectorstore import Vectorstore
+
 # https://huggingface.co/spaces/Gradio-Blocks/document-qa/blob/main/app.py
 # https://github.com/hwchase17/conversation-qa-gradio/blob/master/app.py
-from langchain.vectorstores import Chroma
-from langchain.embeddings import CohereEmbeddings
+
 from langchain.chat_models import ChatOpenAI
-from langchain.chains import (
-    StuffDocumentsChain, LLMChain
-)
+from langchain.chains import StuffDocumentsChain, LLMChain
 from langchain.schema import HumanMessage, AIMessage
 from langchain.prompts import PromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate, ChatPromptTemplate, MessagesPlaceholder
-from langchain.callbacks.manager import (
-    trace_as_chain_group, 
-)
-
+from langchain.callbacks.manager import trace_as_chain_group
 
 # Setup
 config = Config("config.yaml")
 doc = Document(
-    document_path=config.filepath, 
-    split_method=config.split_method, 
+    document_path=config.filepath,  
+    split_method=config.split_method,
     chunk_size=int(config.chunk_size),
     chunk_overlap=int(config.chunk_overlap)
     )
 db = Vectorstore()
+
 # embeddings = CohereEmbeddings()
 # vectorstore = Chroma(embedding_function=embeddings, persist_directory="chroma")
 # retriever = vectorstore.as_retriever()
 
+# Set up our chain that can answer questions based on documents.
 
-### Set up our chain that can answer questions based on documents
-
-# This controls how each document will be formatted. Specifically,
-# it will be passed to `format_document` - see that function for more
-# details.
-document_prompt = PromptTemplate(
-    input_variables=["page_content"],
-     template="{page_content}"
-)
+# This controls how each document will be formatted. Specifically, it will be passed to 
+# `format_document` - see that function for more details.
+document_prompt = PromptTemplate(input_variables=["page_content"], template="{page_content}")
 document_variable_name = "context"
 llm = ChatOpenAI(temperature=0)
-# The prompt here should take as an input variable the
-# `document_variable_name`
-prompt_template = """Use the following pieces of context to answer user questions. If you don't know the answer, just say that you don't know, don't try to make up an answer.
+
+prompt_template = """Use the following pieces of context to answer user questions. If you don't know the answer, just say that you don't know.
 
 --------------
 
 {context}"""
+
 system_prompt = SystemMessagePromptTemplate.from_template(prompt_template)
 prompt = ChatPromptTemplate(
-	messages=[
-		system_prompt, 
-		MessagesPlaceholder(variable_name="chat_history"), 
-		HumanMessagePromptTemplate.from_template("{question}")
-	]
-)
+    messages=[system_prompt, 
+              MessagesPlaceholder(variable_name="chat_history"), 
+              HumanMessagePromptTemplate.from_template("{question}")]
+    )
 llm_chain = LLMChain(llm=llm, prompt=prompt)
 combine_docs_chain = StuffDocumentsChain(
     llm_chain=llm_chain,
     document_prompt=document_prompt,
     document_variable_name=document_variable_name,
     document_separator="---------"
-)
+    )
 
-### Set up a chain that controls how the search query for the vectorstore is generated
+# Set up a chain that controls how the search query for the vectorstore is generated
 
 # This controls how the search query is generated.
 # Should take `chat_history` and `question` as input variables.
-template = """Combine the chat history and follow up question into a a search query.
+template = """Combine the chat history and follow up question into a search query.
 
 Chat History:
 
@@ -79,23 +71,16 @@ prompt = PromptTemplate.from_template(template)
 llm = ChatOpenAI(temperature=0)
 question_generator_chain = LLMChain(llm=llm, prompt=prompt)
 
-
-### Create our function to use
-
 def qa_response(message, history):
-
 	# Convert message history into format for the `question_generator_chain`.
 	convo_string = "\n\n".join([f"Human: {h}\nAssistant: {a}" for h, a in history])
-
 	# Convert message history into LangChain format for the final response chain.
 	messages = []
 	for human, ai in history:
 		messages.append(HumanMessage(content=human))
 		messages.append(AIMessage(content=ai))
-
 	# Wrap all actual calls to chains in a trace group.
 	with trace_as_chain_group("qa_response") as group_manager:
-
 		# Generate search query.
 		search_query = question_generator_chain.run(
 			question=message, 
