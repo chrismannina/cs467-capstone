@@ -52,7 +52,7 @@ class Vectorstore:
         else: 
             raise ValueError(f"Invalid vectorstore: {self.db}")
         
-    def add_docs(self, documents, ids=None):
+    def add_docs(self, documents):
         # Add documents to vectorstore
         if self.db_name == "FAISS":
             return self.vectorstore.add_documents(documents)

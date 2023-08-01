@@ -24,13 +24,12 @@ from langchain.prompts import PromptTemplate, SystemMessagePromptTemplate, Human
 from langchain.callbacks.manager import trace_as_chain_group
 
 
-from tempfile import NamedTemporaryFile
+# from tempfile import NamedTemporaryFile
 
-def handle_upload(file):
-    with NamedTemporaryFile(delete=False) as tmp:
-        for chunk in file.chunks():
-            tmp.write(chunk)
-    return tmp.name  # This is the path to the temporary file
+# def handle_upload(file):
+#     with NamedTemporaryFile(delete=False) as tmp:
+#         tmp.write(file.read())
+#     return tmp.name  # This is the path to the temporary file
 
 
 
@@ -53,12 +52,11 @@ db.save()
 retriever = db.retriever()
 
 # Functions to handle adding a new document to the vector database
-def add_document(file):
-    print(file)
-    doc_path = handle_upload(file)
-    print(doc_path)
+def add_document(document):
+    # doc_path = handle_upload(file)
+    # print(doc_path)
     new_doc = Document(
-        document_path=doc_path,
+        document_path=document,
         split_method=config.split_method,
         chunk_size=int(config.chunk_size),
         chunk_overlap=int(config.chunk_overlap)
@@ -204,7 +202,7 @@ def qa_response(message, history):
 		# )
                                      
 # Create Gradio app
-app = gr.Blocks()
+app = gr.Blocks(css="footer {visibility: hidden}")
 with app:
 	gr.Markdown("# 💊 GuidelineGPT")
 	gr.Markdown("### Clinical Practice Guidelines Q&A")
@@ -214,10 +212,10 @@ with app:
 		chat = gr.ChatInterface(qa_response)
   	# Add a document to the vector database
 	with gr.Tab('Add Document'):
-		doc_input = gr.File()
+		document = gr.File()
 		add_button = gr.Button("📄 Add")
-		doc_status = gr.Textbox(label="Status")
-		add_button.click(fn=add_document, inputs=doc_input, outputs=doc_status)
+		status = gr.Textbox(label="Status")
+		add_button.click(fn=add_document, inputs=document.name, outputs=status)
 	gr.Markdown("<sub>Created by Chris Mannina</sub>")
 
 if __name__ == "__main__":
