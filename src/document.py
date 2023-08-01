@@ -15,12 +15,12 @@ class Document:
         self.split_document = self.__split()
         self.split_document_ids = self.__create_ids()
 
-    def __load(self):
+    def __load(self): #, document_type, online_document):
         # Load document - if file is a URL, load the PDF file from the URL.
-        if self.document_path.startswith("http"):
-            loader = OnlinePDFLoader(self.document_path)
-        elif self.document_path.endswith(".pdf"):
-            loader = PyPDFLoader(self.document_path)
+        # if self.document_path.startswith("http"):
+        loader = OnlinePDFLoader(self.document_path)
+        # elif self.document_path.endswith(".pdf"):
+        #     loader = PyPDFLoader(self.document_path)
         return loader.load()
         
     def __split(self):

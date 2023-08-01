@@ -7,7 +7,7 @@ vectorstore: FAISS
 embedding_model: OpenAIEmbeddings
 
 # Document
-document_path: /Users/chrismannina/cs-projects/school/cs467-capstone/files/mm_htn_guidelines.pdf
+document_path: C:\Users\machris\projects\cs467-capstone\files\NCCN_aml_2023_Guidelines.pdf
 split_method: recursive
 chunk_size: 1000
 chunk_overlap: 200

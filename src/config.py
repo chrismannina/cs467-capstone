@@ -19,13 +19,13 @@ class Config:
     def _load(self, filename):
         with open(filename, 'r') as file:
             self.config = yaml.safe_load(file)
-        self._load_from_env()
+    #     self._load_from_env()
 
-    def _load_from_env(self):
-        for key in self.config:
-            env_value = os.getenv(key.upper())
-            if env_value is not None:
-                self.config[key] = type(self.config[key])(env_value)
+    # def _load_from_env(self):
+    #     for key in self.config:
+    #         env_value = os.getenv(key.upper())
+    #         if env_value is not None:
+    #             self.config[key] = type(self.config[key])(env_value)
 
     @property
     def filepath(self):

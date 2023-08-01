@@ -69,6 +69,9 @@ class Vectorstore:
     def similarity_search_with_score(self, query, k=4):
         # Perform similarity search in database
         return self.vectorstore.similarity_search_with_score(query=query, k=k)
+    
+    def retriever(self):
+        return self.vectorstore.as_retriever()
 
 # TODO: Once Document class has IDs and metadatas, we can update Vectorstore class with delete function and add_texts function. 
 # TODO: this will give better control over the database and what docs we add/delete, and give future ability to search based on metadata (and alter it)

@@ -21,7 +21,7 @@ qa = RetrievalQA.from_chain_type(
 )
 
 
-llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo-0613")
+llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo")
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
 _template = """Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
