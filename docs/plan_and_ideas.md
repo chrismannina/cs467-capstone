@@ -19,3 +19,5 @@
 - Add citations for sources / another chat box to see the returned context
 - Logging and debugging info
 - Improve metadata to have title, description, authors, page #s
+- Create docs for llm chains being used
+- utils.py for formatting functions, doc adding, etc.
