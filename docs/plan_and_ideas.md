@@ -21,3 +21,6 @@
 - Improve metadata to have title, description, authors, page #s
 - Create docs for llm chains being used
 - utils.py for formatting functions, doc adding, etc.
+
+
+- Issue with how metadata is gathered from the PDF when uploaded through Gradio - I lose page numbers

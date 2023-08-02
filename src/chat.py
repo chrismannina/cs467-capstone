@@ -6,14 +6,15 @@ from langchain.prompts import PromptTemplate
 
 
 class Chat:
-    def __init__(self, db, temperature=0, llm_model="gpt-3.5-turbo"):          
+    def __init__(self, db, temperature=0, llm_model="gpt-3.5-turbo"):
         self.db = db
-        self.llm_model = llm_model 
+        self.llm_model = llm_model
         self.temperature = temperature
 
 
 from langchain.chains import RetrievalQA
-from langchain.llms import OpenAIChat        
+from langchain.llms import OpenAIChat
+
 qa = RetrievalQA.from_chain_type(
     llm=OpenAIChat(model="gpt-3.5-turbo"),
     chain_type="stuff",
@@ -64,4 +65,4 @@ qa = ConversationalRetrievalChain(
 
 query = "What is the 90-day cost for metoprolol?"
 result = qa({"question": query})
-result 
+result

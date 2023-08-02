@@ -7,7 +7,7 @@ dotenv_path = "../.env"
 
 
 class Config:
-    _instance = None # Holds single instance of Config once created
+    _instance = None  # Holds single instance of Config once created
 
     def __new__(cls, filename):
         if cls._instance is None:
@@ -17,8 +17,9 @@ class Config:
         return cls._instance
 
     def _load(self, filename):
-        with open(filename, 'r') as file:
+        with open(filename, "r") as file:
             self.config = yaml.safe_load(file)
+
     #     self._load_from_env()
 
     # def _load_from_env(self):
@@ -50,4 +51,3 @@ class Config:
     def get_env_value(self, key):
         # Get environment variable from key name (e.g. OPENAI_API_KEY)
         return os.getenv(key)
-    

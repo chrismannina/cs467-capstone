@@ -1,76 +1,80 @@
 """Class and methods for documents."""
-import uuid 
+import uuid
 
 from langchain.document_loaders import OnlinePDFLoader, PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTextSplitter
+from langchain.text_splitter import (
+    RecursiveCharacterTextSplitter,
+    CharacterTextSplitter,
+)
 
 
 class Document:
-    def __init__(self, document_path, split_method="recursive", chunk_size=1000, chunk_overlap=10):
+    def __init__(
+        self, document_path, split_method="recursive", chunk_size=1000, chunk_overlap=10
+    ):
         self.document_path = document_path
         self.split_method = split_method
-        self.chunk_size = chunk_size 
+        self.chunk_size = chunk_size
         self.chunk_overlap = chunk_overlap
         self.document = self.__load()
         self.split_document = self.__split()
         self.split_document_ids = self.__create_ids()
 
-    def __load(self): #, document_type, online_document):
+    def __load(self):  # , document_type, online_document):
         # Load document - if file is a URL, load the PDF file from the URL.
         # if self.document_path.startswith("http"):
         loader = OnlinePDFLoader(self.document_path)
         # elif self.document_path.endswith(".pdf"):
         #     loader = PyPDFLoader(self.document_path)
         return loader.load()
-        
+
     def __split(self):
         # Split document into chunks
         if self.split_method == "recursive":
             splitter = RecursiveCharacterTextSplitter(
-                chunk_size=self.chunk_size,
-                chunk_overlap=self.chunk_overlap
+                chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap
             )
         elif self.split_method == "character":
             splitter = CharacterTextSplitter(
-                chunk_size=self.chunk_size,
-                chunk_overlap=self.chunk_overlap
+                chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap
             )
         else:
             raise ValueError(f"Invalid split_method: {self.split_method}")
         return splitter.split_documents(self.document)
 
     def __create_ids(self):
-        # Create IDs for each chunk 
+        # Create IDs for each chunk
         return [str(uuid.uuid4()) for _ in self.split_document]
 
     def get_document(self):
         # Return document
         return self.document
-    
+
     def get_split_document(self):
         # Return document chunks
         return self.split_document
-    
+
     def get_ids(self):
         # Return list of IDs for document
         return self.split_document_ids
-    
+
     def print_chunks(self):
         # Print the chunked representation of the document
         chunks = self.split()
         for i, chunk in enumerate(chunks):
-            print(f'Document chunk {i}: {chunk}')
-            
+            print(f"Document chunk {i}: {chunk}")
+
+
 # TODO: split out metadatas from docs - then update funcs for vectorDB.
 # TODO: will need to use add_texts vectorstore funcs, then we can use IDs, and save metadata to the Doc class
-# TODO: this will give ability tyo add more and delete documents and search more easily from metadata.     
-# TODO: add function/method to clean the split texts - could try using ChatGPT to clean each sentence? Or 
-    
-    # elif self.split_method == "tiktoken":
-    #     splitter = CharacterTextSplitter.from_tiktoken_encoder(
-    #         chunk_size=self.chunk_size,
-    #         chunk_overlap=self.chunk_overlap
-    #     )
+# TODO: this will give ability tyo add more and delete documents and search more easily from metadata.
+# TODO: add function/method to clean the split texts - could try using ChatGPT to clean each sentence? Or
+
+# elif self.split_method == "tiktoken":
+#     splitter = CharacterTextSplitter.from_tiktoken_encoder(
+#         chunk_size=self.chunk_size,
+#         chunk_overlap=self.chunk_overlap
+#     )
 
 # def split_documents(self, documents: Iterable[Document]) -> List[Document]:
 #     """Split documents."""
@@ -94,5 +98,3 @@ class Document:
 #                 new_doc = Document(page_content=chunk, metadata=metadata)
 #                 documents.append(new_doc)
 #         return documents
-
-
