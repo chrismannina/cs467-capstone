@@ -1,5 +1,6 @@
-"""Class and methods for documents."""
+"""Class and methods for documents"""
 import uuid
+import logging
 
 from langchain.document_loaders import OnlinePDFLoader, PyPDFLoader
 from langchain.text_splitter import (
@@ -20,27 +21,36 @@ class Document:
         self.split_document = self.__split()
         self.split_document_ids = self.__create_ids()
 
-    def __load(self):  # , document_type, online_document):
-        # Load document - if file is a URL, load the PDF file from the URL.
-        # if self.document_path.startswith("http"):
-        loader = OnlinePDFLoader(self.document_path)
-        # elif self.document_path.endswith(".pdf"):
-        #     loader = PyPDFLoader(self.document_path)
-        return loader.load()
+    def __load(self):  
+        try:
+            if self.document_path.startswith("http"):
+                loader = OnlinePDFLoader(self.document_path)
+            elif self.document_path.endswith(".pdf"):
+                loader = PyPDFLoader(self.document_path)
+            else:
+                raise ValueError(f"Invalid document path: {self.document_path}")
+            return loader.load()
+        except Exception as e:
+            logging.error(f"Failed to load document: {e}")
+            return None
 
     def __split(self):
-        # Split document into chunks
-        if self.split_method == "recursive":
-            splitter = RecursiveCharacterTextSplitter(
-                chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap
-            )
-        elif self.split_method == "character":
-            splitter = CharacterTextSplitter(
-                chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap
-            )
-        else:
-            raise ValueError(f"Invalid split_method: {self.split_method}")
-        return splitter.split_documents(self.document)
+        try:
+            if self.split_method == "recursive":
+                # TODO: implement a way to add the characters e.g. \n \t etc
+                splitter = RecursiveCharacterTextSplitter(
+                    chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap
+                )
+            elif self.split_method == "character":
+                splitter = CharacterTextSplitter(
+                    chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap
+                )
+            else:
+                raise ValueError(f"Invalid split_method: {self.split_method}")
+            return splitter.split_documents(self.document)
+        except Exception as e:
+            logging.error(f"Failed to split document: {e}")
+            return []
 
     def __create_ids(self):
         # Create IDs for each chunk

@@ -1,6 +1,5 @@
 .env
 /scratch
 /myenv
-/dev
 /__pychache__
 src/__pycache__
