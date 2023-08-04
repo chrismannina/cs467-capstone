@@ -24,3 +24,4 @@
 
 
 - Issue with how metadata is gathered from the PDF when uploaded through Gradio - I lose page numbers
+- Implement chat mode vs single QA mode. There may be benefit to single QA mode. 

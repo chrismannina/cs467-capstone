@@ -8,8 +8,10 @@ embedding_model: OpenAIEmbeddings
 
 # Document
 document_paths:
-  - C:\\Users\\machris\\projects\\cs467-capstone\\files\\NCCN_aml_2023_Guidelines.pdf
-  - C:\\Users\\machris\\projects\\cs467-capstone\\files\\How I treat acute myeloid leukemia in the era of new drugs.pdf
+  - /Users/chrismannina/cs-projects/school/cs467-capstone/files/How I treat acute myeloid leukemia in the era of new drugs.pdf
+  - /Users/chrismannina/cs-projects/school/cs467-capstone/files/NCCN_aml_2023_Guidelines.pdf
+  # - C:\\Users\\machris\\projects\\cs467-capstone\\files\\NCCN_aml_2023_Guidelines.pdf
+  # - C:\\Users\\machris\\projects\\cs467-capstone\\files\\How I treat acute myeloid leukemia in the era of new drugs.pdf
 split_method: recursive
 chunk_size: 2000
 chunk_overlap: 200
@@ -17,15 +19,14 @@ chunk_overlap: 200
 # Logging
 log_to_console: true
 console_log_level: INFO
-console_log_color: true
 
 log_to_file: true
 file_log_level: INFO
-log_file_name: app.log
+log_file_name: ../logs/app.log
 
 log_doc_retrieval: true
-doc_retrieval_log_file_name: "doc_retrieval.log"
-doc_retrieval_log_level: "INFO"
+doc_retrieval_log_file_name: ../logs/doc_retrieval.log
+doc_retrieval_log_level: INFO
 
 # Environment variables
-env_path: C:\\Users\\machris\\projects\\cs467-capstone\\.env
+env_path: /Users/chrismannina/cs-projects/school/cs467-capstone/.env # C:\\Users\\machris\\projects\\cs467-capstone\\.env

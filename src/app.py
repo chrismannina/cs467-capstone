@@ -18,7 +18,9 @@ logger = setup_logging(config)
 document_paths = config.document_paths
 try:
     db = VectorStore()
+    logger.info("Loading vector store.")
     db.load()
+    logger.info("Successfully loaded vector store.")
     # for index, doc_path in enumerate(document_paths):
     #     logger.info(f"Processing document: {doc_path}")
     #     doc = Document(
@@ -37,14 +39,16 @@ except Exception as e:
     logger.error(f"Failed to process documents: {e}")
 
 # Set up chat
+logger.info("Initializing chat.")
 chat = Chat(db.retriever(), config)
 
 # Create Gradio app
+logger.info("Building UI.")
 app = gr.Blocks(title="GuidelineGPT", css="footer {visibility: hidden}")
 with app:
-    gr.Markdown("# 💊 GuidelineGPT")
+    gr.Markdown("# 🐍 GuidelineGPT")
     gr.Markdown("### Clinical Practice Guidelines Q&A")
-    gr.Markdown(" ⚠️ <em>This is a demo. This project is still a work in progress.<em>")
+    gr.Markdown(" ⚡ <em>This is a demo. This project is still a work in progress.<em>")
     with gr.Tab("Q&A Chat"):
         gr.ChatInterface(chat.qa_response)
     gr.Markdown(
