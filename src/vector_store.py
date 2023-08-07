@@ -29,7 +29,9 @@ class VectorStore:
     def create_from_docs(self, documents, ids=None):
         try:
             if self.db_name == "FAISS":
-                self.vector_store = FAISS.from_documents(documents, self.embeddings, ids=ids)
+                self.vector_store = FAISS.from_documents(
+                    documents, self.embeddings, ids=ids
+                )
                 return self.vector_store
             elif self.db_name == "Chroma":
                 # TODO: implement Chroma
@@ -59,7 +61,11 @@ class VectorStore:
         # Load vector database
         try:
             if self.db_name == "FAISS":
-                self.vector_store = FAISS.load_local(folder_path=self.folder_path, embeddings=self.embeddings, index_name=self.index_name)
+                self.vector_store = FAISS.load_local(
+                    folder_path=self.folder_path,
+                    embeddings=self.embeddings,
+                    index_name=self.index_name,
+                )
                 return self.vector_store
             elif self.db_name == "Chroma":
                 # TODO: implement Chroma

@@ -21,7 +21,7 @@ class Document:
         self.split_document = self.__split()
         self.split_document_ids = self.__create_ids()
 
-    def __load(self):  
+    def __load(self):
         try:
             if self.document_path.startswith("http"):
                 loader = OnlinePDFLoader(self.document_path)

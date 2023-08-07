@@ -40,7 +40,7 @@ except Exception as e:
 
 # Set up chat
 logger.info("Initializing chat.")
-chat = Chat(db.retriever(), config)
+chat = Chat(config=config, retriever=db.retriever())
 
 # Create Gradio app
 logger.info("Building UI.")
@@ -52,13 +52,13 @@ with app:
     with gr.Tab("Q&A Chat"):
         gr.ChatInterface(chat.qa_response)
     gr.Markdown(
-    """
+        """
     <p style="font-size: 0.8em; color: gray;">
         Created by <a href="mailto:machris@med.umich.edu" style="color: gray;">Chris Mannina</a> 📧 | 
         <a href="https://github.com/chrismannina" style="color: gray;">GitHub</a> 👤
     </p>
     """
-)
+    )
 
 if __name__ == "__main__":
     app.launch()

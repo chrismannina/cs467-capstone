@@ -4,6 +4,7 @@ import yaml
 import logging
 from dotenv import load_dotenv
 
+
 class Config:
     _instance = None  # Holds single instance of Config once created
 
@@ -19,12 +20,14 @@ class Config:
     def _load(self, filename):
         with open(filename, "r") as file:
             self.config = yaml.safe_load(file)
-        load_dotenv(self.config.get("env_path"))  # Load environment variables from .env file
+        load_dotenv(
+            self.config.get("env_path")
+        )  # Load environment variables from .env file
 
     @property
     def debug(self):
         return self.config.get("debug")
-    
+
     @property
     def document_paths(self):
         return self.config.get("document_paths")
@@ -40,48 +43,48 @@ class Config:
     @property
     def chunk_overlap(self):
         return self.config.get("chunk_overlap")
-    
+
     @property
     def temperature(self):
         return self.config.get("temperature")
-    
+
     @property
     def log_to_console(self):
         return self.config.get("log_to_console")
-    
+
     @property
     def console_log_color(self):
         return self.config.get("console_log_color")
-    
+
     @property
     def log_to_file(self):
         return self.config.get("log_to_file")
-    
+
     @property
     def log_file_name(self):
         return self.config.get("log_file_name")
-    
+
     @property
     def console_log_level(self):
         return self.config.get("console_log_level")
-    
+
     @property
     def file_log_level(self):
         return self.config.get("file_log_level")
-    
-    # Logging - document retrieval 
+
+    # Logging - document retrieval
     @property
     def log_doc_retrieval(self):
         return self.config.get("log_doc_retrieval")
-    
+
     @property
     def doc_retrieval_log_file_name(self):
         return self.config.get("doc_retrieval_log_file_name")
-    
+
     @property
     def doc_retrieval_log_level(self):
         return self.config.get("doc_retrieval_log_level")
-    
+
     def get_config_value(self, key):
         # Get configuration value from key name (e.g. filename)
         return self.config.get(key)
