@@ -1,6 +1,6 @@
 import logging
 import coloredlogs
-from config import Config
+from src.config import Config
 
 
 def setup_console_logger(name, console_handler, level):

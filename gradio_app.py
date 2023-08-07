@@ -1,15 +1,14 @@
 # app.py
 import gradio as gr
-import logging
 
-from config import Config
-from log import setup_logging
-from document import Document
-from vector_store import VectorStore
-from chat import Chat
-
+from src.config import Config
+from src.log import setup_logging
+from src.document import Document
+from src.vector_store import VectorStore
+from src.chat import Chat
+cfg_file = "C:\\Users\\machris\\projects\\cs467-capstone\\src\\config.yaml"
 # Load configuration
-config = Config("config.yaml")
+config = Config(cfg_file)
 
 # Set up logging
 logger = setup_logging(config)

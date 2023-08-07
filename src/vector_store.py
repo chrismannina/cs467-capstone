@@ -10,7 +10,7 @@ class VectorStore:
         self,
         db_name="FAISS",
         embeddings_model="OpenAIEmbeddings",
-        folder_path="../db",
+        folder_path="C:\\Users\\machris\\projects\\cs467-capstone\\db",
         index_name="index",
     ):
         self.db_name = db_name

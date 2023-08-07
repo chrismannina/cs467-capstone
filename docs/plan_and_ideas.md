@@ -34,4 +34,18 @@ To complete capstone:
    7. 
 2. CLI tools for checking
    1. Pass in a JSON (?) file with all questions. Get returned a file with questions, answers, retrieved docs, scores for them, and gpt3.5, gpt4 answers without docs
-   
+
+### improvment ideas for similarity search:
+Some common ways to improve on vector similarity search include:
+
+MultiQueryRetriever generates variants of the input question to improve retrieval.
+Max marginal relevance selects for relevance and diversity among the retrieved documents.
+Documents can be filtered during retrieval using metadata filters.
+
+
+retrieval:
+chains -
+1) [RetrievalQA](https://api.python.langchain.com/en/latest/chains/langchain.chains.retrieval_qa.base.RetrievalQA.html#langchain.chains.retrieval_qa.base.RetrievalQA)
+2) [ConversationalRetrievalChain](https://api.python.langchain.com/en/latest/chains/langchain.chains.conversational_retrieval.base.ConversationalRetrievalChain.html#langchain.chains.conversational_retrieval.base.ConversationalRetrievalChain)
+3) [RetrievalQAWithSourcesChain](https://api.python.langchain.com/en/latest/chains/langchain.chains.qa_with_sources.retrieval.RetrievalQAWithSourcesChain.html#langchain.chains.qa_with_sources.retrieval.RetrievalQAWithSourcesChain)
+4) [MultiRetrievalQAChain](https://api.python.langchain.com/en/latest/chains/langchain.chains.router.multi_retrieval_qa.MultiRetrievalQAChain.html#langchain.chains.router.multi_retrieval_qa.MultiRetrievalQAChain)

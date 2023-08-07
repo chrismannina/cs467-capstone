@@ -23,12 +23,12 @@ class Document:
 
     def __load(self):
         try:
-            if self.document_path.startswith("http"):
-                loader = OnlinePDFLoader(self.document_path)
-            elif self.document_path.endswith(".pdf"):
-                loader = PyPDFLoader(self.document_path)
-            else:
-                raise ValueError(f"Invalid document path: {self.document_path}")
+            # if self.document_path.startswith("http"):
+            #     loader = OnlinePDFLoader(self.document_path)
+            # elif self.document_path.endswith(".pdf"):
+            loader = PyPDFLoader(self.document_path)
+            # else:
+            #     raise ValueError(f"Invalid document path: {self.document_path}")
             return loader.load()
         except Exception as e:
             logging.error(f"Failed to load document: {e}")

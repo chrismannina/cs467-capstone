@@ -49,6 +49,10 @@ class Config:
         return self.config.get("temperature")
 
     @property
+    def llm_model(self):
+        return self.config.get("llm_model")
+
+    @property
     def log_to_console(self):
         return self.config.get("log_to_console")
 
