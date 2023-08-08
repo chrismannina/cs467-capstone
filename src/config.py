@@ -96,3 +96,19 @@ class Config:
     def get_env_value(self, key):
         # Get environment variable from key name (e.g. OPENAI_API_KEY)
         return os.getenv(key)
+
+    @llm_model.setter
+    def llm_model(self, value):
+        self._llm_model = value
+
+    @chunk_size.setter
+    def chunk_size(self, value):
+        self._chunk_size = value
+
+    @chunk_overlap.setter
+    def chunk_overlap(self, value):
+        self._chunk_overlap = value
+
+    @temperature.setter
+    def temperature(self, value):
+        self._temperature = value

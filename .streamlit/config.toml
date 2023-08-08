@@ -1,2 +1,23 @@
+[browser]
+gatherUsageStats = false
+
+[global]
+showWarningOnDirectExecution = false
+
 [theme]
-base = "dark"
+primaryColor = "#E694FF"
+backgroundColor = "#00172B"
+secondaryBackgroundColor = "#0083B8"
+textColor = "#FFFFFF"
+font = "sans serif"
+
+[server]
+headless = true
+port = 8501
+enableCORS = false
+
+[runner]
+magicEnabled = false
+
+[application]
+showPromo = false

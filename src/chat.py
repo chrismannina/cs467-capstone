@@ -56,9 +56,7 @@ class Chat:
         doc_prompt = PromptTemplate.from_template(prompts.DOCUMENT_PROMPT)
         doc_var_name = prompts.DOCUMENT_VARIABLE_NAME
 
-        system_prompt = SystemMessagePromptTemplate.from_template(
-            prompts.SYSTEM_PROMPT
-        )
+        system_prompt = SystemMessagePromptTemplate.from_template(prompts.SYSTEM_PROMPT)
         prompt = ChatPromptTemplate(
             messages=[
                 system_prompt,
@@ -80,8 +78,13 @@ class Chat:
     def __create_qa_chain(self):
         if self.conversational:
             llm = self.__create_llm()
-            condense_question_prompt = PromptTemplate(input_variables=['chat_history', 'question'], template=prompts.CONDENSE_QUESTION_PROMPT)
-            qa_prompt = PromptTemplate(input_variables=['question', 'context'], template=prompts.CHAT_QA_PROMPT)
+            condense_question_prompt = PromptTemplate(
+                input_variables=["chat_history", "question"],
+                template=prompts.CONDENSE_QUESTION_PROMPT,
+            )
+            qa_prompt = PromptTemplate(
+                input_variables=["question", "context"], template=prompts.CHAT_QA_PROMPT
+            )
             combine_docs_chain_kwargs = {"prompt": qa_prompt}
             return ConversationalRetrievalChain.from_llm(
                 llm=llm,
@@ -108,7 +111,10 @@ class Chat:
             # )
         else:
             llm = self.__create_llm()
-            prompt = PromptTemplate(input_variables=['context', 'question'], template=prompts.RETRIEVAL_QA_PROMPT)
+            prompt = PromptTemplate(
+                input_variables=["context", "question"],
+                template=prompts.RETRIEVAL_QA_PROMPT,
+            )
             chain_type_kwargs = {"prompt": prompt}
             qa = RetrievalQA.from_chain_type(
                 llm=llm,
@@ -135,25 +141,27 @@ class Chat:
 
     # https://python.langchain.com/docs/use_cases/question_answering/how_to/question_answering
     def format_terms(self, text):
-        formatted_text = re.sub(r'[“"”]([^”“]+)[“"”]', r'<b>\1</b>', text)
-        formatted_text = formatted_text.replace('\n', '<br>')
+        formatted_text = re.sub(r'[“"”]([^”“]+)[“"”]', r"<b>\1</b>", text)
+        formatted_text = formatted_text.replace("\n", "<br>")
         return formatted_text
 
     def ask(self, question):
         if self.conversational:
-            result = self.qa_chain({"question": question, "chat_history": self.chat_history})
-            self.chat_history.append((question, result["answer"])) 
+            result = self.qa_chain(
+                {"question": question, "chat_history": self.chat_history}
+            )
+            self.chat_history.append((question, result["answer"]))
 
             # # Use a set to remove duplicates
-            # sources = list(set(doc.metadata["source"] for doc in result["source_documents"]))  
-            
-            # formatted_answer = self.format_terms(result['answer'])    
-            
+            # sources = list(set(doc.metadata["source"] for doc in result["source_documents"]))
+
+            # formatted_answer = self.format_terms(result['answer'])
+
             # answer = f"<strong>Answer:</strong><br><br> {formatted_answer}<br><br><strong>Source:</strong><br>"
             # answer += "<br>".join(f'<a href="{source}" target="_blank">{source}</a>' for source in sources)
-            
+
             # return answer
-            
+
             # # messages = []
             # # for human, ai in history:
             # #     messages.append(HumanMessage(content=human))
@@ -165,19 +173,19 @@ class Chat:
             json_response = json.dumps(
                 result, default=lambda o: o.__dict__, indent=4
             )  # Convert the response to JSON format
-            print(json_response)
+            # print(json_response)
             return result
         else:
             response = self.qa_chain(question)
-            
-            self.chat_history.append((question, response["result"])) 
-            
+
+            self.chat_history.append((question, response["result"]))
+
             print(self.qa_chain.combine_documents_chain.llm_chain.prompt.template)
 
             json_response = json.dumps(
                 response, default=lambda o: o.__dict__, indent=4
             )  # Convert the response to JSON format
-            print(json_response)
+            # print(json_response)
             return response
 
     def gradio_chat(self, message, history):
