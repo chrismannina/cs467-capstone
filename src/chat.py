@@ -1,5 +1,8 @@
+# https://docs.langchain.com/docs/components/chains/index_related_chains
+
 from src import prompts
 import logging
+import re
 from src.utils import remove_non_ascii
 import json
 
@@ -34,6 +37,7 @@ class Chat:
         self.combine_docs_chain = self.__create_combine_docs_chain()
         self.qa_chain = self.__create_qa_chain()
         # self.setup_chains()
+        self.chat_history = []
 
     def __create_llm(self):
         return ChatOpenAI(
@@ -43,7 +47,7 @@ class Chat:
     def __create_question_generator(self):
         llm = self.__create_llm()
         question_generator_prompt = PromptTemplate.from_template(
-            prompts.QUESTION_GENERATOR_PROMPT
+            prompts.CONDENSE_QUESTION_PROMPT
         )
         return LLMChain(llm=llm, prompt=question_generator_prompt)
 
@@ -51,69 +55,125 @@ class Chat:
         # Format a document into a string based on a prompt template.
         doc_prompt = PromptTemplate.from_template(prompts.DOCUMENT_PROMPT)
         doc_var_name = prompts.DOCUMENT_VARIABLE_NAME
-        llm = self.__create_llm()
-        system_prompt = SystemMessagePromptTemplate.from_template(prompts.PROMPT_TEMPLATE)
+
+        system_prompt = SystemMessagePromptTemplate.from_template(
+            prompts.SYSTEM_PROMPT
+        )
         prompt = ChatPromptTemplate(
             messages=[
-                system_prompt, 
-                MessagesPlaceholder(variable_name="chat_history"), 
-                HumanMessagePromptTemplate.from_template("{question}")
+                system_prompt,
+                MessagesPlaceholder(variable_name="chat_history"),
+                HumanMessagePromptTemplate.from_template("{question}"),
             ]
         )
+
+        llm = self.__create_llm()
         llm_chain = LLMChain(llm=llm, prompt=prompt)
+
         return StuffDocumentsChain(
             llm_chain=llm_chain,
             document_prompt=doc_prompt,
             document_variable_name=doc_var_name,
-            document_separator="---------", # default "\n\n"
+            # document_separator="---------", # default "\n\n"
         )
 
     def __create_qa_chain(self):
         if self.conversational:
-            
-            memory = ConversationBufferMemory(
-                memory_key="chat_history",
-                return_messages=True,
-                input_key="question",
-                output_key="answer",
-            )
-            return ConversationalRetrievalChain(
-                question_generator=self.__create_question_generator(),
+            llm = self.__create_llm()
+            condense_question_prompt = PromptTemplate(input_variables=['chat_history', 'question'], template=prompts.CONDENSE_QUESTION_PROMPT)
+            qa_prompt = PromptTemplate(input_variables=['question', 'context'], template=prompts.CHAT_QA_PROMPT)
+            combine_docs_chain_kwargs = {"prompt": qa_prompt}
+            return ConversationalRetrievalChain.from_llm(
+                llm=llm,
                 retriever=self.retriever,
-                memory=memory,
-                combine_docs_chain=self.combine_docs_chain,
+                condense_question_prompt=condense_question_prompt,
+                chain_type="stuff",
+                combine_docs_chain_kwargs=combine_docs_chain_kwargs,
                 return_source_documents=True,
                 verbose=True,
             )
+            # memory = ConversationBufferMemory(
+            #     memory_key="chat_history",
+            #     return_messages=True,
+            #     input_key="question",
+            #     output_key="answer",
+            # )
+            # return ConversationalRetrievalChain(
+            #     question_generator=self.__create_question_generator(),
+            #     retriever=self.retriever,
+            #     memory=memory,
+            #     combine_docs_chain=self.combine_docs_chain,
+            #     return_source_documents=True,
+            #     verbose=True,
+            # )
         else:
-            # llm = self.__create_llm()
-            return RetrievalQA(
-                combine_documents_chain=self.combine_docs_chain,
+            llm = self.__create_llm()
+            prompt = PromptTemplate(input_variables=['context', 'question'], template=prompts.RETRIEVAL_QA_PROMPT)
+            chain_type_kwargs = {"prompt": prompt}
+            qa = RetrievalQA.from_chain_type(
+                llm=llm,
+                chain_type="stuff",
                 retriever=self.retriever,
+                chain_type_kwargs=chain_type_kwargs,
                 return_source_documents=True,
                 verbose=True,
             )
-            
-            
+            return qa
+            # return RetrievalQA.from_llm(
+            #     llm=llm,
+            #     retriever=self.retriever,
+            #     prompt=prompt,
+            #     return_source_documents=True,
+            #     verbose=True,
+            # )
+        # RetrievalQA(
+        #         combine_documents_chain=self.combine_docs_chain,
+        #         retriever=self.retriever,
+        #         return_source_documents=True,
+        #         verbose=True,
+        #     )
+
     # https://python.langchain.com/docs/use_cases/question_answering/how_to/question_answering
+    def format_terms(self, text):
+        formatted_text = re.sub(r'[“"”]([^”“]+)[“"”]', r'<b>\1</b>', text)
+        formatted_text = formatted_text.replace('\n', '<br>')
+        return formatted_text
 
     def ask(self, question):
         if self.conversational:
-            messages = []
-            for human, ai in history:
-                messages.append(HumanMessage(content=human))
-                messages.append(AIMessage(content=ai))
-       
-            response = self.qa_chain({"question": question, "chat_history": messages})
-            # # self.print_formatted_output(response)
+            result = self.qa_chain({"question": question, "chat_history": self.chat_history})
+            self.chat_history.append((question, result["answer"])) 
+
+            # # Use a set to remove duplicates
+            # sources = list(set(doc.metadata["source"] for doc in result["source_documents"]))  
+            
+            # formatted_answer = self.format_terms(result['answer'])    
+            
+            # answer = f"<strong>Answer:</strong><br><br> {formatted_answer}<br><br><strong>Source:</strong><br>"
+            # answer += "<br>".join(f'<a href="{source}" target="_blank">{source}</a>' for source in sources)
+            
+            # return answer
+            
+            # # messages = []
+            # # for human, ai in history:
+            # #     messages.append(HumanMessage(content=human))
+            # #     messages.append(AIMessage(content=ai))
+
+            # # response = self.qa_chain({"question": question, "chat_history": messages})
+            # response = self.qa_chain(question)
+            # # # self.print_formatted_output(response)
             json_response = json.dumps(
-                response, default=lambda o: o.__dict__, indent=4
+                result, default=lambda o: o.__dict__, indent=4
             )  # Convert the response to JSON format
             print(json_response)
-            return response
+            return result
         else:
-            response = self.qa_chain(question) 
-            # # self.print_formatted_output(response)
+            response = self.qa_chain(question)
+            
+            self.chat_history.append((question, response["result"])) 
+            
+            print(self.qa_chain.combine_documents_chain.llm_chain.prompt.template)
+
             json_response = json.dumps(
                 response, default=lambda o: o.__dict__, indent=4
             )  # Convert the response to JSON format

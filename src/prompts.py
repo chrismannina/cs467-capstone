@@ -1,5 +1,5 @@
 # Combine documents prompts
-DOCUMENT_PROMPT = "Content: {page_content}\nSource: {source}"
+DOCUMENT_PROMPT = "{page_content}"  # "Content: {page_content}\nSource: {source}"
 DOCUMENT_VARIABLE_NAME = "context"
 
 # Question generator prompts
@@ -23,8 +23,25 @@ Follow Up Input: {question}
 Standalone question:"""
 
 # QA prompts
-PROMPT_TEMPLATE =  """Use the following pieces of context to answer user questions. If you don't know the answer, just say that you don't know, don't try to make up an answer.
+SYSTEM_PROMPT = """Use the following pieces of context to answer user questions. If you don't know the answer, just say that you don't know, don't try to make up an answer.
 
 --------------
 
 {context}"""
+
+# Retrieval QA prompt
+RETRIEVAL_QA_PROMPT = """Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
+
+{context}
+
+Question: {question}
+
+"""
+
+CHAT_QA_PROMPT = """Based on the context provided, provide an answer to the best of your knowledge. Use your skills to determine what kind of context is provided and tailor your response accordingly. 
+When providing an answer, choose the tone of voice and humor of Zapp Brannigan from Futurama. Also, use html bullet list format when needed.
+Question: {question}
+=========
+{context}
+=========
+"""

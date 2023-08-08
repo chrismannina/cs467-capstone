@@ -2,12 +2,15 @@
 from collections import defaultdict
 from document import Document
 
+
 class DocumentManager:
     def __init__(self):
         self.documents = {}
         # self.documents = defaultdict(Document):
 
-    def create_document(self, id, document_path, split_method, chunk_size, chunk_overlap):
+    def create_document(
+        self, id, document_path, split_method, chunk_size, chunk_overlap
+    ):
         self.documents[id] = Document(
             document_path=document_path,
             split_method=split_method,

@@ -279,3 +279,149 @@ Initializing chat.
 Loading vector store.
 Successfully loaded vector store.
 Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Building UI.
+Loading vector store.
+Successfully loaded vector store.
+Initializing chat.
+Building UI.
+Loading vector store.
+Successfully loaded vector store.
+Processing document: C:\\Users\\machris\\projects\\cs467-capstone\\files\\NCCN_aml_2023_Guidelines.pdf
+Processing document: C:\\Users\\machris\\projects\\cs467-capstone\\files\\How I treat acute myeloid leukemia in the era of new drugs.pdf
+Initializing chat.
+Building UI.
+Building UI.
+Creating vector store.
+Processing document.
+Processing document: UploadedFile(id=1, name='mm_htn_guidelines.pdf', type='application/pdf', size=270935)
+Initializing chat.
+Creating vector store.
+Processing document.
+Processing document: UploadedFile(id=1, name='mm_htn_guidelines.pdf', type='application/pdf', size=270935)
+Initializing chat.
+Creating vector store.
+Processing document.
+Processing document: UploadedFile(id=1, name='mm_htn_guidelines.pdf', type='application/pdf', size=270935)
+Initializing chat.
+error_code=None error_message="'$.input' is invalid. Please check the API reference: https://platform.openai.com/docs/api-reference." error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+Creating vector store.
+Processing document.
+Initializing chat.
+error_code=None error_message="'$.input' is invalid. Please check the API reference: https://platform.openai.com/docs/api-reference." error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+Creating vector store.
+Processing document.
+Initializing chat.
+Creating vector store.
+Processing document.
+Initializing chat.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Initializing chat.
+Initializing chat.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.

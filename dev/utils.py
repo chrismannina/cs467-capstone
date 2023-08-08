@@ -3,6 +3,7 @@ from collections import defaultdict
 from urllib.parse import urlparse
 import os
 
+
 def format_context(docs):
     formatted_context = ""
     for doc in docs:
@@ -11,6 +12,7 @@ def format_context(docs):
         content = doc.page_content
         formatted_context += f"Source: {source}\nPage: {page}\nContent: {content}\n\n"
     return formatted_context
+
 
 def format_metadata(docs):
     # Using defaultdict to automatically handle new sources
@@ -64,6 +66,7 @@ def format_metadata(docs):
 
     return formatted_metadata
 
+
 def format_retrieved_docs(docs):
     formatted_output = ""
 
@@ -74,5 +77,5 @@ def format_retrieved_docs(docs):
         formatted_output += "Content:\n"
         formatted_output += "-------------------\n"
         formatted_output += f"{doc.page_content}\n\n"
-    
+
     return formatted_output

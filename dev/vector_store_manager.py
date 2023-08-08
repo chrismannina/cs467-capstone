@@ -3,6 +3,7 @@ from collections import defaultdict
 from vector_store import VectorStore
 from document_manager import DocumentManager
 
+
 class VectorStoreManager:
     def __init__(self, document_manager: DocumentManager):
         self.document_manager = document_manager

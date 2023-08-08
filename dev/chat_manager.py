@@ -3,6 +3,7 @@ from collections import defaultdict
 from chat import Chat
 from vector_store_manager import VectorStoreManager
 
+
 class ChatManager:
     def __init__(self, vector_store_manager: VectorStoreManager):
         self.vector_store_manager = vector_store_manager

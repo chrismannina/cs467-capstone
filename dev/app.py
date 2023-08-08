@@ -13,7 +13,7 @@ from utils import format_context, format_metadata, format_retrieved_docs
 from langchain.schema import HumanMessage, AIMessage
 from langchain.callbacks.manager import trace_as_chain_group
 
-# Config 
+# Config
 config = Config("config.yaml")
 
 # Setup managers
@@ -23,44 +23,57 @@ chat_manager = ChatManager(vector_store_manager)
 
 document_path = r"C:\Users\machris\projects\cs467-capstone\files\mm_htn_guidelines.pdf"
 # Create default chat, document, and vector store
-document_manager.create_document('default', document_path=document_path,
-            split_method=config.split_method,
-            chunk_size=int(config.chunk_size),
-            chunk_overlap=int(config.chunk_overlap),)
-vector_store_manager.create_vector_store('default', ['default'])  # This creates a vector store with the 'default' document
-chat_manager.create_chat('default', ['default'])  # This creates a chat with the 'default' vector store
+document_manager.create_document(
+    "default",
+    document_path=document_path,
+    split_method=config.split_method,
+    chunk_size=int(config.chunk_size),
+    chunk_overlap=int(config.chunk_overlap),
+)
+vector_store_manager.create_vector_store(
+    "default", ["default"]
+)  # This creates a vector store with the 'default' document
+chat_manager.create_chat(
+    "default", ["default"]
+)  # This creates a chat with the 'default' vector store
 # Get the default chat, document, and vectorstore
-current_chat = chat_manager.get_chat('default')
-current_document = document_manager.get_document('default')
-current_vectorstore = vector_store_manager.get_vector_store('default')
+current_chat = chat_manager.get_chat("default")
+current_document = document_manager.get_document("default")
+current_vectorstore = vector_store_manager.get_vector_store("default")
+
 
 # Functions to handle adding a new document to the vector database
 def add_document(document):
     try:
         document_manager.create_document(
-            'new_document', 
-            document.name, 
-            config.split_method, 
-            int(config.chunk_size), 
-            int(config.chunk_overlap)
+            "new_document",
+            document.name,
+            config.split_method,
+            int(config.chunk_size),
+            int(config.chunk_overlap),
         )
-        current_document = document_manager.get_document('new_document')
+        current_document = document_manager.get_document("new_document")
         current_vectorstore.add_docs(current_document.get_split_document())
         current_vectorstore.save()
         return "Document added successfully!"
     except Exception as e:
         return f"Error occurred while adding document: {str(e)}"
 
+
 def relevant_docs(search_query):
     docs = current_vectorstore.retriever().get_relevant_documents(search_query)
     metadata = format_metadata(docs)
     return metadata
 
+
 chat_dropdown = gr.Dropdown(choices=list(chat_manager.chats.keys()))
+
+
 def switch_chat(chat_id):
     global current_chat
     current_chat = chat_manager.get_chat(chat_id)
     return f"Switched to chat {chat_id}"
+
 
 def qa_response(message, history):
     # Convert message history into format for the `question_generator_chain`
@@ -74,19 +87,19 @@ def qa_response(message, history):
     with trace_as_chain_group("qa_response") as group_manager:
         # Generate search query.
         search_query = current_chat.question_generator_chain.run(
-            question=message, 
-            chat_history=convo_string, 
-            callbacks=group_manager
+            question=message, chat_history=convo_string, callbacks=group_manager
         )
         # Retrieve relevant docs
-        docs = current_vectorstore.retriever().get_relevant_documents(search_query, callbacks=group_manager)
-        
+        docs = current_vectorstore.retriever().get_relevant_documents(
+            search_query, callbacks=group_manager
+        )
+
         # TODO: move these to the utils - printing docs in color
         # TODO: need to have better method of logging/debug printing
-        print(Fore.GREEN) # set color to green
-        pprint(docs) # pretty print docs
-        print(Style.RESET_ALL) # reset color to default
-        
+        print(Fore.GREEN)  # set color to green
+        pprint(docs)  # pretty print docs
+        print(Style.RESET_ALL)  # reset color to default
+
         # Answer question
         answer = current_chat.combine_docs_chain.run(
             input_documents=docs,
@@ -96,6 +109,7 @@ def qa_response(message, history):
         )
 
         return answer
+
 
 # Create Gradio app
 app = gr.Blocks(title="GuidelineGPT", css="footer {visibility: hidden}")
@@ -114,13 +128,13 @@ with app:
         status = gr.Textbox(label="Status")
         add_button.click(fn=add_document, inputs=document, outputs=status)
     gr.Markdown(
-    """
+        """
     <p style="font-size: 0.8em; color: gray;">
         Created by <a href="mailto:machris@med.umich.edu" style="color: gray;">Chris Mannina</a> 📧 | 
         <a href="https://github.com/chrismannina" style="color: gray;">GitHub</a> 👤
     </p>
     """
-)
+    )
 
 if __name__ == "__main__":
     app.launch()

@@ -30,7 +30,6 @@ from langchain.prompts import (
 from langchain.callbacks.manager import trace_as_chain_group
 
 
-
 # from tempfile import NamedTemporaryFile
 
 # def handle_upload(file):
@@ -70,7 +69,6 @@ db.save()
 retriever = db.retriever()
 
 
-
 # Functions to handle adding a new document to the vector database
 def add_document(document):
     try:
@@ -85,7 +83,6 @@ def add_document(document):
         return "Document added successfully!"
     except Exception as e:
         return f"Error occurred while adding document: {str(e)}"
-
 
 
 # Set up our chain that can answer questions based on documents.
@@ -132,12 +129,10 @@ llm = ChatOpenAI(temperature=0)
 question_generator_chain = LLMChain(llm=llm, prompt=prompt)
 
 
-
 def relevant_docs(search_query):
     docs = retriever.get_relevant_documents(search_query)
     metadata = format_metadata(docs)
     return metadata
-
 
 
 def qa_response(message, history):
@@ -156,13 +151,13 @@ def qa_response(message, history):
         )
         # Retrieve relevant docs
         docs = retriever.get_relevant_documents(search_query, callbacks=group_manager)
-        
+
         # TODO: move these to the utils - printing docs in color
         # TODO: need to have better method of logging/debug printing
-        print(Fore.GREEN) # set color to green
-        pprint(docs) # pretty print docs
-        print(Style.RESET_ALL) # reset color to default
-        
+        print(Fore.GREEN)  # set color to green
+        pprint(docs)  # pretty print docs
+        print(Style.RESET_ALL)  # reset color to default
+
         # Answer question
         answer = combine_docs_chain.run(
             input_documents=docs,
@@ -193,13 +188,13 @@ with app:
         status = gr.Textbox(label="Status")
         add_button.click(fn=add_document, inputs=document, outputs=status)
     gr.Markdown(
-    """
+        """
     <p style="font-size: 0.8em; color: gray;">
         Created by <a href="mailto:machris@med.umich.edu" style="color: gray;">Chris Mannina</a> 📧 | 
         <a href="https://github.com/chrismannina" style="color: gray;">GitHub</a> 👤
     </p>
     """
-)
+    )
 
 
 if __name__ == "__main__":
