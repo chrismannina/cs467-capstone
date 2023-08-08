@@ -4,7 +4,7 @@ from src.document import Document
 from src.vector_store import VectorStore
 from src.chat import Chat
 
-cfg_file = "C:\\Users\\machris\\projects\\cs467-capstone\\src\\config.yaml"
+cfg_file = "/Users/chrismannina/cs-projects/school/cs467-capstone/src/cfg_mac.yaml"
 # Load configuration
 config = Config(cfg_file)
 

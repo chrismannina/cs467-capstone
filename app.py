@@ -12,8 +12,8 @@ from src.chat import Chat
 # from langchain.docstore.document import Document
 # from PyPDF2 import PdfReader
 
-
-cfg_file = "C:\\Users\\machris\\projects\\cs467-capstone\\src\\config.yaml"
+# cfg_file = "C:\\Users\\machris\\projects\\cs467-capstone\\src\\config.yaml"
+cfg_file = "/Users/chrismannina/cs-projects/school/cs467-capstone/src/cfg_mac.yaml"
 
 
 def handle_userinput(user_question):
