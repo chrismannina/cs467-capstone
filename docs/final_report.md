@@ -1,8 +1,5 @@
-Certainly! Based on the provided information, I'll flesh out a more detailed report:
-
----
-
-**Title Page**
+### Medical Document Querying Using Language Models and Vector Stores
+#### Final Report
 - **Project Name**: Medical Document Querying Using Language Models and Vector Stores
 - **Team Member**: Chris Mannina
 - **Course**: CS467 Capstone, Oregon State University

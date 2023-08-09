@@ -52,3 +52,24 @@ GPT learns knowledge through model weights (fine-tuning) or model inputs (knowle
 Fine-tuning is similar to studying for an exam in advance, where the model may forget details or misremember facts it never encountered. On the other hand, message inputs act as short-term memory, similar to taking an exam with open notes.
 
 One limitation of text search compared to fine-tuning is the maximum amount of text the model can read at once. Therefore, to create a system capable of answering questions using extensive text sources (clinical practice guidelines in our case), we will try the Search-Ask method.
+
+
+
+Object-Oriented Design in Python: Adopted a modular and scalable object-oriented approach in Python, ensuring maintainability and extensibility. This design facilitates easy integration of future enhancements without disrupting the existing functionality.
+
+Dynamic Configuration Management: Utilized an innovative YAML-based configuration system. This allows for easy adjustments to model parameters, vector storage choices, and document paths, fostering rapid experimentation and iterative development. Python classes and methods are seamlessly integrated with this configuration system, streamlining the setup and modification processes.
+
+Streamlit Application: Leveraged the Streamlit framework to create an intuitive and interactive web interface. This user-friendly front-end masks the complex backend processes, providing users with a straightforward experience.
+
+Advanced Vector Storage: Implemented FAISS and Chroma, cutting-edge vector databases, ensuring efficient storage and rapid similarity searches. This architecture is pivotal for real-time querying of extensive medical datasets.
+
+Sophisticated Document Handling: Integrated various document loaders with special emphasis on handling online PDFs. The system employs intricate text splitting algorithms, optimizing the embedding process and ensuring high-quality vector representations.
+
+Custom Language Model Prompts: Crafted specialized prompts that guide the OpenAI language model, ensuring precise and context-aware responses. This design choice was pivotal in achieving high accuracy in responses, particularly when querying dense medical documents.
+
+This version provides a deeper dive into the technical architecture and emphasizes the design choices that make the project unique. Let me know if this aligns with your vision or if you'd like further refinements!
+
+
+
+
+
