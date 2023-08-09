@@ -1,5 +1,43 @@
-# Clinical Guideline Q&A Using Embeddings + ChatGPT
+# Medical Document Q&A Application
 
-## How it works 
-When a document is uploaded, text is extracted from the document. This text is then split into shorter text chunks, and an embedding is created for each text chunk. When the user asks a question, an embedding is created for the question, and a similarity search is performed to find the file chunk embeddings that are most similar to the question (i.e. have highest cosine similarities with the question embedding). An API call is then made to the completions endpoint, with the question and the most relevant file chunks are included in the prompt. The generative model then gives the answer to the question found in the file chunks, if the answer can be found in the extracts.
+This application enables users to ask questions related to specific documents, particularly medical guidelines. It uses vector embeddings and similarity search to retrieve relevant sections of the documents and then utilizes a chat model to generate detailed answers.
 
+## Table of Contents
+
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+
+## Features
+
+- Upload and process documents to be used as a knowledge base.
+- Ask questions related to the uploaded documents.
+- Receive precise answers and relevant document references.
+- Interactive Streamlit interface for ease of use.
+- CLI support for direct command-line interaction.
+
+## Installation
+
+1. Clone the repository:
+
+   ```
+   git clone https://github.com/chrismannina/cs467-capstone.git
+   ```
+
+2. Navigate to the project directory and install the required packages:
+   ```
+   cd cs467-capstone
+   pip install -r requirements.txt
+   ```
+
+## Usage
+
+### Streamlit Interface
+
+1. To launch the Streamlit app, run:
+
+   ```
+   streamlit run app.py
+   ```
+
+2. Use the Streamlit interface to upload documents and ask questions.

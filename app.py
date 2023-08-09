@@ -1,10 +1,7 @@
 import os
 import tempfile
-import json
-import streamlit as st
-
-# from streamlit_chat import message
 import re
+import streamlit as st
 
 from src.config import Config
 from src.log import setup_logging
@@ -12,18 +9,19 @@ from src.document import Document
 from src.vector_store import VectorStore
 from src.chat import Chat
 
-# cfg_file = "C:\\Users\\machris\\projects\\cs467-capstone\\src\\config.yaml"
-cfg_file = "/Users/chrismannina/cs-projects/school/cs467-capstone/src/cfg_mac.yaml"
-
-personal_info = """
-\n
-st.markdown("---")
-st.markdown("### Made by Chris Mannina")
-st.markdown("[Email me](mailto:chrismannina@example.com) | [GitHub](https://github.com/chrismannina)")
-"""
-
+cfg_file = "C:\\Users\\machris\\projects\\cs467-capstone\\src\\config.yaml"
+# cfg_file = "/Users/chrismannina/cs-projects/school/cs467-capstone/src/cfg_mac.yaml"
 
 def clean_document_chunks(chunks):
+    """
+    Clean the content of document chunks by removing unwanted characters and patterns.
+    
+    Parameters:
+    - chunks (dict): Dictionary containing document chunks to be cleaned.
+    
+    Returns:
+    - dict: Dictionary containing cleaned document chunks.
+    """
     cleaned_chunks = {}
     for idx, chunk in enumerate(chunks):
         page_content = chunk.page_content
@@ -34,13 +32,20 @@ def clean_document_chunks(chunks):
 
 
 def handle_userinput(user_question, conversation):
+    """
+    Process the user's question and display the AI-generated response.
+    
+    Parameters:
+    - user_question (str): The question posed by the user.
+    - conversation (object): An instance of the Chat class to manage the conversation.
+    
+    Returns:
+    None
+    """
     response = conversation.ask(user_question)
     answer = response["answer"]
     answer = answer.replace("$", "\\$")
     st.write(answer)
-    # Convert the response to JSON format
-    json_response = json.dumps(response, default=lambda o: o.__dict__, indent=4)
-
     # Display retrieved document chunks
     with st.expander("View Retrieved Documents"):
         cleaned_chunks = clean_document_chunks(response["source_documents"])
@@ -48,8 +53,15 @@ def handle_userinput(user_question, conversation):
 
 
 def main():
+    """
+    The main function that defines the Streamlit interface and handles user interactions.
+    
+    Returns:
+    None
+    """
     st.set_page_config(page_title="DocDigest MD", page_icon=":stethoscope:")
-
+    
+    # Hide default Streamlit format
     hide_default_format = """<style>
                             #MainMenu {visibility: hidden; }
                             footer {visibility: hidden;}
@@ -57,26 +69,22 @@ def main():
                             """
     st.markdown(hide_default_format, unsafe_allow_html=True)
 
-    # Header with branding
+    # Add header for webapp
     st.header(":page_facing_up::mag: DocDigest MD")
     st.subheader("Simplifying Medical Documents")
     st.write(
         "Leverage the power of language models to get insights from your medical documents."
     )
 
-    # Sidebar for settings adjustments and document upload
+    # Sidebar for settings, document upload, and application information
     with st.sidebar:
         with st.expander(":information_source: Getting Started", expanded=False):
-            # st.markdown("### Getting Started")
             st.markdown("- Adjust settings if required.")
             st.markdown("- Upload your medical documents.")
             st.markdown("- Ask any relevant questions about the document.")
             st.markdown("- View retrieved document chunks for more context.")
-            # if st.button("Got it!"):
-            #     st.session_state.onboarded = True
 
         with st.expander(":gear: Settings", expanded=False):
-            # st.subheader(":gear: Settings")
             if not st.session_state.get("data_processed"):
                 # Model selection
                 model_option = st.selectbox(
@@ -109,10 +117,13 @@ def main():
                     value=100,
                     step=50,
                 )
+                
             if st.session_state.get("data_processed"):
                 if st.button("Reset App"):
-                    # Delete the database files
+                    # Path to database files
                     db_dir = "C:\\Users\\machris\\projects\\cs467-capstone\\db"
+                    
+                    # Delete the database files
                     for file in os.listdir(db_dir):
                         os.remove(os.path.join(db_dir, file))
 
@@ -125,6 +136,7 @@ def main():
                     # Rerun the Streamlit app
                     st.experimental_rerun()
 
+        # Document upload section - dissapears once documents are uploaded
         if not st.session_state.get("data_processed"):
             with st.expander(":file_folder: Upload Documents", expanded=False):
                 uploaded_files = st.file_uploader(
@@ -138,39 +150,49 @@ def main():
                         cfg.temperature = temperature
                         cfg.chunk_size = chunk_size
                         cfg.chunk_overlap = chunk_overlap
+                        
                         # Set up logging
                         logger = setup_logging(cfg)
-
                         logger.info("Creating vector store.")
                         db = VectorStore()
 
+                        # Process each uploaded document
                         logger.info("Processing document.")
                         for index, doc_path in enumerate(uploaded_files):
+                             # Create a temporary file to store the uploaded document
                             temp_file = tempfile.NamedTemporaryFile(delete=False)
                             temp_file.write(doc_path.read())
                             temp_file_path = temp_file.name
 
+                            # Create a Document instance for processing
                             doc = Document(
                                 document_path=temp_file_path,
                                 split_method=cfg.split_method,
                                 chunk_size=int(cfg.chunk_size),
                                 chunk_overlap=int(cfg.chunk_overlap),
                             )
+                             # If it's the first document, create a new vector store, else add to the existing one
                             if index == 0:
-                                # Use create_from_docs for the first document
                                 db.create_from_docs(doc.get_split_document())
                             else:
                                 db.add_docs(doc.get_split_document())
+                            
+                            # Close and delete the temporary file
                             temp_file.close()
                             if temp_file_path:
                                 os.remove(temp_file_path)
+                                
+                        # Save the vector store
                         db.save()
 
+                        # Initialize the retriever and chat using the saved vector store
                         retriever = db.retriever()
                         logger.info("Initializing chat.")
                         st.session_state.conversation = Chat(
                             config=cfg, retriever=retriever
                         )
+                        
+                        # Mark that data processing is complete
                         st.session_state.data_processed = True
 
         with st.expander(":computer: About", expanded=False):
@@ -190,17 +212,6 @@ def main():
                 "Made by Chris Mannina [📧](mailto:machris@umich.edu) | [👤](https://github.com/chrismannina)"
             )
 
-    # # User Onboarding
-    # if not st.session_state.get("onboarded"):
-    #     with st.expander("Harness the power of advanced language models to get insights from your medical documents."):
-    #         st.markdown("### Getting Started")
-    #         st.markdown("- Adjust settings if required.")
-    #         st.markdown("- Upload your medical documents.")
-    #         st.markdown("- Ask any relevant questions about the document.")
-    #         st.markdown("- View retrieved document chunks for more context.")
-    #         if st.button("Got it!"):
-    #             st.session_state.onboarded = True
-
     # Q&A Section
     if "conversation" in st.session_state:
         user_question = st.text_input(
@@ -208,15 +219,6 @@ def main():
         )
         if user_question:
             handle_userinput(user_question, st.session_state.conversation)
-
-    # st.footer(
-    #     """
-    # <p style="font-size: 0.8em; color: gray;">
-    #     Created by <a href="mailto:machris@med.umich.edu" style="color: gray;">Chris Mannina</a> 📧 |
-    #     <a href="https://github.com/chrismannina" style="color: gray;">GitHub</a> 👤
-    # </p>
-    # """
-    # )
 
 
 if __name__ == "__main__":

@@ -27,4 +27,4 @@ doc_retrieval_log_file_name: /Users/chrismannina/cs-projects/school/cs467-capsto
 doc_retrieval_log_level: INFO
 
 # Environment variables
-env_path: /Users/chrismannina/cs-projects/school/cs467-capstone/.env
+env_path: /Users/chrismannina/cs-projects/school/cs467-capstone/config/.env

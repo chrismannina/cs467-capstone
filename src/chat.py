@@ -9,7 +9,6 @@ import json
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import (
     RetrievalQA,
-    RetrievalQAWithSourcesChain,
     ConversationalRetrievalChain,
     StuffDocumentsChain,
     LLMChain,
@@ -30,21 +29,35 @@ from langchain.callbacks.manager import trace_as_chain_group
 
 
 class Chat:
+    """
+    Class to manage chat interactions, including retrieval and response generation with the language model.
+
+    Attributes:
+    - config (object): Configuration settings for the chat.
+    - retriever (object): The retriever used to fetch relevant document chunks.
+    - conversational (bool): Determines if the chat mode is conversational.
+    """
+    
     def __init__(self, config, retriever=None, conversational=True):
         self.config = config
         self.retriever = retriever
-        self.conversational = conversational  # Boolean - we can specify if we want simple Q&A or coversational Q&A (chat memory/history)
+        self.conversational = conversational
         self.combine_docs_chain = self.__create_combine_docs_chain()
         self.qa_chain = self.__create_qa_chain()
-        # self.setup_chains()
         self.chat_history = []
 
     def __create_llm(self):
+        """
+        Wrapper around OpenAI Chat large language models. Needs an environment variable ``OPENAI_API_KEY`` set with an API key.
+        """
         return ChatOpenAI(
             model_name=self.config.llm_model, temperature=self.config.temperature
         )
 
     def __create_question_generator(self):
+        """
+        Create and return the question generator, which is an LLM chain with a specific prompt.
+        """
         llm = self.__create_llm()
         question_generator_prompt = PromptTemplate.from_template(
             prompts.CONDENSE_QUESTION_PROMPT
@@ -52,7 +65,9 @@ class Chat:
         return LLMChain(llm=llm, prompt=question_generator_prompt)
 
     def __create_combine_docs_chain(self):
-        # Format a document into a string based on a prompt template.
+        """
+        Create and return a LLM chain that prepares a user query and combines document chunks into a prompt.
+        """
         doc_prompt = PromptTemplate.from_template(prompts.DOCUMENT_PROMPT)
         doc_var_name = prompts.DOCUMENT_VARIABLE_NAME
 
