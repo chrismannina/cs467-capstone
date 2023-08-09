@@ -1,0 +1,54 @@
+Certainly! Given the information you've shared and the title you've chosen, let's craft a poster layout:
+
+**Title**: 
+"Medical Document Querying Using Language Models and Vector Stores"
+
+**Subheader**:
+"Transforming Raw Medical Text into Actionable, Personalized Insights"
+
+**Sections**:
+
+1. **Introduction**:
+   "Harness the power of advanced language models and vector stores to extract and answer questions from vast medical documents. This system breaks down documents, embeds them as vectors, and utilizes a language model to provide precise answers to user queries."
+
+2. **How It Works**:
+   - **Document Processing**: Documents are broken down into smaller, manageable text chunks.
+   - **Vector Embedding**: Text chunks are converted into vectors using state-of-the-art models like BERT or GPT, capturing the essence of the text.
+   - **Vector Storage**: These vectors are stored in a structured vector database, ensuring similar vectors are close to each other.
+   - **Query Processing**: User questions are also converted into vectors, which are then matched against the vector database.
+   - **Answer Generation**: Relevant text chunks are fed into the language model, which crafts a detailed response based on the content.
+
+3. **Key Features**:
+   - **Personalized Responses**: Tailored answers based on the specifics of your medical documents.
+   - **Scalable**: Capable of handling vast amounts of data, from individual reports to extensive medical guidelines.
+   - **Fast Querying**: Utilizing vector stores allows for rapid search and retrieval, even in vast datasets.
+   - **Secure**: Ensures the privacy and confidentiality of sensitive medical data.
+
+4. **Use Case Scenarios**:
+   (Consider adding a few real-world scenarios where this system could be beneficial. E.g., "A medical researcher quickly finds guidelines related to a specific rare disease without sifting through hundreds of pages.")
+
+5. **Technical Highlights**:
+   A section showcasing a few code snippets or technical details that emphasize the innovative aspects of your project. This could be from the code you uploaded.
+
+6. **Conclusion and Future Directions**:
+   "This system revolutionizes the way we interact with extensive medical documents, providing immediate, accurate answers to specific queries. Future iterations could integrate more advanced models, expand to different document types, and offer multi-language support."
+
+7. **Acknowledgments**:
+   If you've worked with a team or had any mentors/advisors, this is a good section to acknowledge their contributions.
+
+**Additional Elements**:
+- **Screenshots**: Display your project in action. This helps the viewer visualize the interface and interaction.
+- **Code Snippet**: A brief code section or two can highlight the technical depth of your project. I can help select these from the uploaded files.
+- **Team Photos**: If you're presenting with a team or planning to attend the Career Showcase, including team photos can make the poster more personal and approachable.
+
+Let me know what you think of this layout, and we can refine or proceed to the next steps.
+
+
+
+Why not just train or fine-tune a LLM?
+
+GPT learns knowledge through model weights (fine-tuning) or model inputs (knowledge inserted into an input message). Fine-tuning is less reliable for factual recall.
+
+Fine-tuning is similar to studying for an exam in advance, where the model may forget details or misremember facts it never encountered. On the other hand, message inputs act as short-term memory, similar to taking an exam with open notes.
+
+One limitation of text search compared to fine-tuning is the maximum amount of text the model can read at once. Therefore, to create a system capable of answering questions using extensive text sources (clinical practice guidelines in our case), we will try the Search-Ask method.
