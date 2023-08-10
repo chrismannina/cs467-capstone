@@ -1,4 +1,39 @@
 import re
+import requests
+
+
+def validate_openai_key(api_key):
+    """
+    Validate the OpenAI API key by sending a test request.
+
+    Parameters:
+    - api_key (str): The OpenAI API key to validate.
+
+    Returns:
+    - bool: True if the API key is valid, False otherwise.
+    """
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+    }
+
+    data = {
+        "model": "text-davinci-003",
+        "prompt": "Translate the following English text to French: 'Hello'",
+        "max_tokens": 10,
+    }
+
+    response = requests.post(
+        "https://api.openai.com/v1/engines/davinci/completions",
+        headers=headers,
+        json=data,
+    )
+
+    # Check if the response status code is 200 (OK)
+    if response.status_code == 200:
+        return True
+    else:
+        return False
 
 
 def remove_non_ascii(text):

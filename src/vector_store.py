@@ -24,6 +24,7 @@ class VectorStore:
     - index_name (str): Name of the database index.
     - vector_store (object): Vector database object.
     """
+
     def __init__(
         self,
         db_name="FAISS",
@@ -46,17 +47,17 @@ class VectorStore:
 
     def create_from_docs(self, documents, ids=None):
         """Create a vector database from a list of documents.
-        
+
         Args:
             documents (list): List of documents to be added to the database.
             ids (list, optional): List of IDs corresponding to the documents.
-        
+
         Returns:
             object: Vector database object.
         """
         try:
             if self.db_name == "FAISS":
-                 # Will need to implement document IDs for the document chunks for more control over what is stored. This will always be None currently.
+                # Will need to implement document IDs for the document chunks for more control over what is stored. This will always be None currently.
                 self.vector_store = FAISS.from_documents(
                     documents, self.embeddings, ids=ids
                 )
@@ -66,7 +67,7 @@ class VectorStore:
                 self.vector_store = Chroma.from_documents(
                     documents=documents,
                     embedding=self.embeddings,
-                    persist_directory="../db"
+                    persist_directory="../db",
                 )
                 pass
             else:
@@ -111,13 +112,13 @@ class VectorStore:
 
     def add_docs(self, documents):
         """Add documents to the vector database.
-        
+
         Args:
             documents (list): List of documents to be added.
-        
+
         Returns:
             list: List of document IDs added to the database.
-       """
+        """
         try:
             if self.db_name == "FAISS":
                 return self.vector_store.add_documents(documents)
@@ -132,32 +133,32 @@ class VectorStore:
 
     def similarity_search(self, query, k=4):
         """Perform a similarity search in the vector database.
-        
+
         Args:
             query (str): Query to search for.
             k (int): Number of top results to retrieve.
-        
+
         Returns:
             list: List of most similar documents/entries.
-       """
+        """
         return self.vector_store.similarity_search(query=query, k=k)
 
     def similarity_search_with_score(self, query, k=4):
         """Perform a similarity search in the vector database and get scores.
-        
+
         Args:
             query (str): Query to search for.
             k (int): Number of top results to retrieve.
-        
+
         Returns:
             list: List of most similar documents/entries along with scores.
-       """
+        """
         return self.vector_store.similarity_search_with_score(query=query, k=k)
 
     def retriever(self):
         """Get the vector database retriever object.
-        
+
         Returns:
             object: Retriever object.
-       """
+        """
         return self.vector_store.as_retriever()

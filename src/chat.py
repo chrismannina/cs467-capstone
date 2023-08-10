@@ -21,6 +21,7 @@ from langchain.prompts import (
     ChatPromptTemplate,
     MessagesPlaceholder,
 )
+
 # Imports for deprecated Gradio chat function
 from langchain.callbacks.manager import trace_as_chain_group
 from src.utils import remove_non_ascii
@@ -42,14 +43,13 @@ class Chat:
     - combine_docs_chain (object): Chain for combining document chunks into prompts.
     - qa_chain (object): Main Q&A chain.
     - chat_history (list): History of chat interactions.
-  
+
     """
-    
-    def __init__(self, config, retriever=None, conversational=True, api_key=None):
-        self.config = config     
-        self.retriever = retriever  
-        self.conversational = conversational       
-        self.__api_key = api_key
+
+    def __init__(self, config, retriever=None, conversational=True):
+        self.config = config
+        self.retriever = retriever
+        self.conversational = conversational
         self.combine_docs_chain = self.__create_combine_docs_chain()
         self.qa_chain = self.__create_qa_chain()
         self.chat_history = []
@@ -57,19 +57,14 @@ class Chat:
     def __create_llm(self):
         """
         Wrapper around OpenAI Chat large language models. Needs an environment variable ``OPENAI_API_KEY`` set with an API key.
-        Note the `model_kwargs` parameter holds any model parameters that are valid with openai.ChatCompletion.create(...). This 
-        includes but not limited to model, messages, temperature. Need to still look at langchain source code and see how it is 
+        Note the `model_kwargs` parameter holds any model parameters that are valid with openai.ChatCompletion.create(...). This
+        includes but not limited to model, messages, temperature. Need to still look at langchain source code and see how it is
         implemented.
         """
-        if self.__api_key: 
-            return ChatOpenAI(
-                model_name=self.config.llm_model, temperature=self.config.temperature, openai_api_key=self.__api_key
-            )
-        else:
-            return ChatOpenAI(
-                model_name=self.config.llm_model, temperature=self.config.temperature
-            )
-            
+        return ChatOpenAI(
+            model_name=self.config.llm_model, temperature=self.config.temperature
+        )
+
     def __create_question_generator(self):
         """
         Create and return the question generator, which is an LLM chain with a specific prompt.
@@ -120,7 +115,7 @@ class Chat:
                 input_variables=["question", "context"], template=prompts.CHAT_QA_PROMPT
             )
             combine_docs_chain_kwargs = {"prompt": qa_prompt}
-            # Note if using memory = ConversationBufferMemory(...) for chat memory with return_messages=True you may 
+            # Note if using memory = ConversationBufferMemory(...) for chat memory with return_messages=True you may
             # need to include input_key="question" and output_key="answer" as args to avoid errors.
             return ConversationalRetrievalChain.from_llm(
                 llm=llm,
@@ -150,12 +145,12 @@ class Chat:
 
     def format_terms(self, text):
         """Format the given text for better visibility.
-        
+
         Converts quoted text to bold and replaces newline characters with HTML line breaks.
-        
+
         Args:
             text (str): The input text.
-        
+
         Returns:
             str: The formatted text.
         """
@@ -165,13 +160,13 @@ class Chat:
 
     def ask(self, question):
         """Accepts a user's question and returns the model's response.
-        
+
         Depending on the mode (conversational or not), this method processes the user's
         query differently and leverages different chains to generate the response.
-        
+
         Args:
             question (str): The user's query.
-        
+
         Returns:
             dict/str: The model's response.
         """
@@ -186,8 +181,8 @@ class Chat:
             self.chat_history.append((question, answer["result"]))
 
         return answer
-        
-    # DEPRECATED - switched to Streamlit 
+
+    # DEPRECATED - switched to Streamlit
     def gradio_chat(self, message, history):
         """Method for Gradio's ChatInterface chatbot UI. DEPRECATED as the application now uses Streamlit for the UI."""
         convo_string = "\\n\\n".join(

@@ -1,3 +1,707 @@
 Creating vector store.
 Processing document.
 Initializing chat.
+Creating vector store.
+Processing document.
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmpb00rka__
+Failed to split document: 'NoneType' object is not iterable
+Failed to create vector store: list index out of range
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmpfrny9hmj
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmpfrny9hmj
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmp8hl177dr
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmp8hl177dr
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmp8hl177dr
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmp0xuskh4z
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmp0xuskh4z
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmp0xuskh4z
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmp0xuskh4z
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmpbez1bnlp
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmpbez1bnlp
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmpbez1bnlp
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmpbez1bnlp
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmpbez1bnlp
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmp0z2gg4f4
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmp0z2gg4f4
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmp0z2gg4f4
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmp0z2gg4f4
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmp0z2gg4f4
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmp0z2gg4f4
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to split document: 'NoneType' object is not iterable
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to create vector store: list index out of range
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Processing document.
+Failed to load document: Invalid document path: C:\Users\machris\AppData\Local\Temp\tmpa9voi_jr
+Failed to split document: 'NoneType' object is not iterable
+Failed to create vector store: list index out of range
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Initializing chat.
+Initializing chat.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Processing document.
+Initializing chat.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+error_code=invalid_api_key error_message='Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.' error_param=None error_type=invalid_request_error message='OpenAI API error received' stream_error=False
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to create vector store: Incorrect API key provided: cant stop. You can find your API key at https://platform.openai.com/account/api-keys.
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Failed to save vector store: 'NoneType' object has no attribute 'save_local'
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Process document attempted without valid API key: 'OPENAI_API_KEY'
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Creating vector store.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Processing document.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.
+Initializing chat.

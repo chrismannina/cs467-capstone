@@ -4,7 +4,7 @@
 # -----------------------------------------------------------------------------
 
 # Default format for embedding document content.
-DOCUMENT_PROMPT = "{page_content}"  
+DOCUMENT_PROMPT = "{page_content}"
 # Alternative format (commented out): "Content: {page_content}\nSource: {source}"
 DOCUMENT_VARIABLE_NAME = "context"
 

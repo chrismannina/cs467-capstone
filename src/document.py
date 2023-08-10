@@ -15,10 +15,10 @@ from langchain.text_splitter import (
 
 class Document:
     """Class to represent and manage a document.
-    
-    This class provides functionalities to load a document from a path, split its content based on a specified method, 
+
+    This class provides functionalities to load a document from a path, split its content based on a specified method,
     and access its chunks and corresponding unique IDs.
-    
+
     Attributes:
         document_path (str): Path to the document.
         split_method (str): Method to use for splitting the document content.
@@ -28,6 +28,7 @@ class Document:
         split_document (list): List of document chunks after splitting.
         split_document_ids (list): List of unique IDs for each chunk.
     """
+
     def __init__(
         self, document_path, split_method="recursive", chunk_size=1000, chunk_overlap=10
     ):
@@ -41,10 +42,10 @@ class Document:
 
     def __load(self):
         """Load the document content from the provided path.
-       
+
         Returns:
             str: Loaded content of the document.
-       """
+        """
         try:
             if self.document_path.startswith("http"):
                 loader = OnlinePDFLoader(self.document_path)
@@ -59,10 +60,10 @@ class Document:
 
     def __split(self):
         """Split the loaded document content based on the specified method.
-        
+
         Uses either RecursiveCharacterTextSplitter or CharacterTextSplitter
         based on the split_method attribute.
-        
+
         Returns:
             list: List of document chunks after splitting.
         """

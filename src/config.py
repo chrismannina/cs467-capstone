@@ -10,15 +10,16 @@ from dotenv import load_dotenv
 
 class Config:
     """Singleton class for managing the application's configuration.
-    
-    This class is responsible for loading the configuration from a YAML file 
+
+    This class is responsible for loading the configuration from a YAML file
     and providing access to specific configuration values. It also manages
     environment variables from a .env file.
-    
+
     Attributes:
         _instance: Singleton instance of the Config class.
     """
-    _instance = None 
+
+    _instance = None
 
     def __new__(cls, filename):
         """Ensure a single instance of Config and load the configuration."""
@@ -34,9 +35,7 @@ class Config:
         """Load the configuration from a YAML file and environment variables."""
         with open(filename, "r") as file:
             self.config = yaml.safe_load(file)
-        load_dotenv(
-            self.config.get("env_path")
-        ) 
+        load_dotenv(self.config.get("env_path"))
 
     # Below are properties that provide access to specific configuration values.
     @property
