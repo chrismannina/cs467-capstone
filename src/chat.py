@@ -1,11 +1,11 @@
-# https://docs.langchain.com/docs/components/chains/index_related_chains
+"""Module for managing chat interactions, including retrieval and response generation.
 
+This module provides the Chat class which oversees chat interactions, leveraging
+the capabilities of large language models, document retrieval, and other utilities.
+"""
 from src import prompts
 import logging
 import re
-from src.utils import remove_non_ascii
-import json
-
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import (
     RetrievalQA,
@@ -13,10 +13,6 @@ from langchain.chains import (
     StuffDocumentsChain,
     LLMChain,
 )
-from langchain.memory import ConversationBufferMemory
-
-# from langchain.chains.combine_documents.stuff import StuffDocumentsChain
-# from langchain.chains.llm import LLMChain
 from langchain.schema import HumanMessage, AIMessage
 from langchain.prompts import (
     PromptTemplate,
@@ -25,23 +21,35 @@ from langchain.prompts import (
     ChatPromptTemplate,
     MessagesPlaceholder,
 )
+# Imports for deprecated Gradio chat function
 from langchain.callbacks.manager import trace_as_chain_group
+from src.utils import remove_non_ascii
 
 
 class Chat:
     """
-    Class to manage chat interactions, including retrieval and response generation with the language model.
+    Class to manage chat interactions, including retrieval and response generation.
+
+    This class provides functionalities to:
+    - Create various chains for processing user queries and generating responses.
+    - Maintain a chat history.
+    - Generate model-based responses to user queries.
 
     Attributes:
     - config (object): Configuration settings for the chat.
     - retriever (object): The retriever used to fetch relevant document chunks.
-    - conversational (bool): Determines if the chat mode is conversational.
+    - conversational (bool): Determines if the chat mode is conversational (ConversationalRetrievalChain or RetrievalQA).
+    - combine_docs_chain (object): Chain for combining document chunks into prompts.
+    - qa_chain (object): Main Q&A chain.
+    - chat_history (list): History of chat interactions.
+  
     """
     
-    def __init__(self, config, retriever=None, conversational=True):
-        self.config = config
-        self.retriever = retriever
-        self.conversational = conversational
+    def __init__(self, config, retriever=None, conversational=True, api_key=None):
+        self.config = config     
+        self.retriever = retriever  
+        self.conversational = conversational       
+        self.__api_key = api_key
         self.combine_docs_chain = self.__create_combine_docs_chain()
         self.qa_chain = self.__create_qa_chain()
         self.chat_history = []
@@ -49,11 +57,19 @@ class Chat:
     def __create_llm(self):
         """
         Wrapper around OpenAI Chat large language models. Needs an environment variable ``OPENAI_API_KEY`` set with an API key.
+        Note the `model_kwargs` parameter holds any model parameters that are valid with openai.ChatCompletion.create(...). This 
+        includes but not limited to model, messages, temperature. Need to still look at langchain source code and see how it is 
+        implemented.
         """
-        return ChatOpenAI(
-            model_name=self.config.llm_model, temperature=self.config.temperature
-        )
-
+        if self.__api_key: 
+            return ChatOpenAI(
+                model_name=self.config.llm_model, temperature=self.config.temperature, openai_api_key=self.__api_key
+            )
+        else:
+            return ChatOpenAI(
+                model_name=self.config.llm_model, temperature=self.config.temperature
+            )
+            
     def __create_question_generator(self):
         """
         Create and return the question generator, which is an LLM chain with a specific prompt.
@@ -91,6 +107,9 @@ class Chat:
         )
 
     def __create_qa_chain(self):
+        """
+        Creates either a ConversationalRetrievalChain or RetrievalQA.
+        """
         if self.conversational:
             llm = self.__create_llm()
             condense_question_prompt = PromptTemplate(
@@ -101,6 +120,8 @@ class Chat:
                 input_variables=["question", "context"], template=prompts.CHAT_QA_PROMPT
             )
             combine_docs_chain_kwargs = {"prompt": qa_prompt}
+            # Note if using memory = ConversationBufferMemory(...) for chat memory with return_messages=True you may 
+            # need to include input_key="question" and output_key="answer" as args to avoid errors.
             return ConversationalRetrievalChain.from_llm(
                 llm=llm,
                 retriever=self.retriever,
@@ -110,20 +131,6 @@ class Chat:
                 return_source_documents=True,
                 verbose=True,
             )
-            # memory = ConversationBufferMemory(
-            #     memory_key="chat_history",
-            #     return_messages=True,
-            #     input_key="question",
-            #     output_key="answer",
-            # )
-            # return ConversationalRetrievalChain(
-            #     question_generator=self.__create_question_generator(),
-            #     retriever=self.retriever,
-            #     memory=memory,
-            #     combine_docs_chain=self.combine_docs_chain,
-            #     return_source_documents=True,
-            #     verbose=True,
-            # )
         else:
             llm = self.__create_llm()
             prompt = PromptTemplate(
@@ -140,70 +147,49 @@ class Chat:
                 verbose=True,
             )
             return qa
-            # return RetrievalQA.from_llm(
-            #     llm=llm,
-            #     retriever=self.retriever,
-            #     prompt=prompt,
-            #     return_source_documents=True,
-            #     verbose=True,
-            # )
-        # RetrievalQA(
-        #         combine_documents_chain=self.combine_docs_chain,
-        #         retriever=self.retriever,
-        #         return_source_documents=True,
-        #         verbose=True,
-        #     )
 
-    # https://python.langchain.com/docs/use_cases/question_answering/how_to/question_answering
     def format_terms(self, text):
+        """Format the given text for better visibility.
+        
+        Converts quoted text to bold and replaces newline characters with HTML line breaks.
+        
+        Args:
+            text (str): The input text.
+        
+        Returns:
+            str: The formatted text.
+        """
         formatted_text = re.sub(r'[“"”]([^”“]+)[“"”]', r"<b>\1</b>", text)
         formatted_text = formatted_text.replace("\n", "<br>")
         return formatted_text
 
     def ask(self, question):
+        """Accepts a user's question and returns the model's response.
+        
+        Depending on the mode (conversational or not), this method processes the user's
+        query differently and leverages different chains to generate the response.
+        
+        Args:
+            question (str): The user's query.
+        
+        Returns:
+            dict/str: The model's response.
+        """
         if self.conversational:
-            result = self.qa_chain(
+            answer = self.qa_chain(
                 {"question": question, "chat_history": self.chat_history}
             )
-            self.chat_history.append((question, result["answer"]))
-
-            # # Use a set to remove duplicates
-            # sources = list(set(doc.metadata["source"] for doc in result["source_documents"]))
-
-            # formatted_answer = self.format_terms(result['answer'])
-
-            # answer = f"<strong>Answer:</strong><br><br> {formatted_answer}<br><br><strong>Source:</strong><br>"
-            # answer += "<br>".join(f'<a href="{source}" target="_blank">{source}</a>' for source in sources)
-
-            # return answer
-
-            # # messages = []
-            # # for human, ai in history:
-            # #     messages.append(HumanMessage(content=human))
-            # #     messages.append(AIMessage(content=ai))
-
-            # # response = self.qa_chain({"question": question, "chat_history": messages})
-            # response = self.qa_chain(question)
-            # # # self.print_formatted_output(response)
-            json_response = json.dumps(
-                result, default=lambda o: o.__dict__, indent=4
-            )  # Convert the response to JSON format
-            # print(json_response)
-            return result
+            self.chat_history.append((question, answer["answer"]))
         else:
-            response = self.qa_chain(question)
+            answer = self.qa_chain(question)
 
-            self.chat_history.append((question, response["result"]))
+            self.chat_history.append((question, answer["result"]))
 
-            print(self.qa_chain.combine_documents_chain.llm_chain.prompt.template)
-
-            json_response = json.dumps(
-                response, default=lambda o: o.__dict__, indent=4
-            )  # Convert the response to JSON format
-            # print(json_response)
-            return response
-
+        return answer
+        
+    # DEPRECATED - switched to Streamlit 
     def gradio_chat(self, message, history):
+        """Method for Gradio's ChatInterface chatbot UI. DEPRECATED as the application now uses Streamlit for the UI."""
         convo_string = "\\n\\n".join(
             [f"Human: {h}\\nAssistant: {a}" for h, a in history]
         )
@@ -235,67 +221,3 @@ class Chat:
                 logging.error(f"Failed to generate response: {e}")
                 answer = "Sorry, I was unable to generate a response."
             return answer
-        # response = self.qa_chain(message)
-        # json_response = json.dumps(response, default=lambda o: o.__dict__, indent=4)  # Convert the response to JSON format
-        # print(json_response)
-        # return response["answer"]
-
-    # def setup_chains(self):
-
-    #     document_prompt = PromptTemplate(
-    #         input_variables=["page_content"], template=prompts.DOCUMENT_PROMPT_TEMPLATE
-    #     )
-    #     document_variable_name = prompts.DOCUMENT_VARIABLE_NAME
-
-    #     llm = ChatOpenAI(temperature=self.config.temperature)
-
-    #     system_prompt = SystemMessagePromptTemplate.from_template(
-    #         prompts.PROMPT_TEMPLATE
-    #     )
-
-    #     prompt = ChatPromptTemplate(
-    #         messages=[
-    #             system_prompt,
-    #             MessagesPlaceholder(variable_name="chat_history"),
-    #             HumanMessagePromptTemplate.from_template("{question}"),
-    #         ]
-    #     )
-
-    #     self.llm_chain = LLMChain(llm=llm, prompt=prompt)
-
-    #     self.combine_docs_chain = StuffDocumentsChain(
-    #         llm_chain=self.llm_chain,
-    #         document_prompt=document_prompt,
-    #         document_variable_name=document_variable_name,
-    #         document_separator="---------",
-    #     )
-
-    #     question_generator_prompt = PromptTemplate.from_template(
-    #         prompts.QUESTION_GENERATOR_PROMPT
-    #     )
-
-    #     self.question_generator_chain = LLMChain(
-    #         llm=llm, prompt=question_generator_prompt
-    #     )
-
-    # def _setup_chains(self):
-    #     # reference: https://api.python.langchain.com/en/latest/llms/langchain.llms.openai.OpenAIChat.html#langchain.llms.openai.OpenAIChat
-    #     llm = ChatOpenAI(model_name=self.config.llm_model, temperature=self.config.temperature)
-
-    #     # Setup chat based QA
-    #     if self.conversational:
-    #         # https://api.python.langchain.com/en/latest/schema/langchain.schema.memory.BaseMemory.html#langchain.schema.memory.BaseMemory
-    #         # memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-    #         chat = ConversationalRetrievalChain.from_llm(llm=llm, retriever=self.retriever, return_generated_question=True, ) #, memory=memory)
-
-    #     else:
-
-    # def ask(self, question):
-    #     ask = RetrievalQA.from_chain_type(llm=llm,
-    #                              chain_type="stuff",
-    #                              retriever=self.retriever,
-    #                              chain_type_kwargs=chain_type_kwargs,
-    #                              verbose=True,
-    #                              #return_source_documents=True
-    #                             )
-    #     return ask

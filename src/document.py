@@ -1,4 +1,8 @@
-"""Class and methods for documents"""
+"""Module for handling and processing documents in the application.
+
+This module provides the Document class which represents a document and offers functionalities to load, split, 
+and access its content.
+"""
 import uuid
 import logging
 
@@ -10,6 +14,20 @@ from langchain.text_splitter import (
 
 
 class Document:
+    """Class to represent and manage a document.
+    
+    This class provides functionalities to load a document from a path, split its content based on a specified method, 
+    and access its chunks and corresponding unique IDs.
+    
+    Attributes:
+        document_path (str): Path to the document.
+        split_method (str): Method to use for splitting the document content.
+        chunk_size (int): Size of each chunk after splitting.
+        chunk_overlap (int): Number of overlapping characters between chunks.
+        document (str): Loaded content of the document.
+        split_document (list): List of document chunks after splitting.
+        split_document_ids (list): List of unique IDs for each chunk.
+    """
     def __init__(
         self, document_path, split_method="recursive", chunk_size=1000, chunk_overlap=10
     ):
@@ -22,19 +40,32 @@ class Document:
         self.split_document_ids = self.__create_ids()
 
     def __load(self):
+        """Load the document content from the provided path.
+       
+        Returns:
+            str: Loaded content of the document.
+       """
         try:
-            # if self.document_path.startswith("http"):
-            #     loader = OnlinePDFLoader(self.document_path)
-            # elif self.document_path.endswith(".pdf"):
-            loader = PyPDFLoader(self.document_path)
-            # else:
-            #     raise ValueError(f"Invalid document path: {self.document_path}")
+            if self.document_path.startswith("http"):
+                loader = OnlinePDFLoader(self.document_path)
+            elif self.document_path.endswith(".pdf"):
+                loader = PyPDFLoader(self.document_path)
+            else:
+                raise ValueError(f"Invalid document path: {self.document_path}")
             return loader.load()
         except Exception as e:
             logging.error(f"Failed to load document: {e}")
             return None
 
     def __split(self):
+        """Split the loaded document content based on the specified method.
+        
+        Uses either RecursiveCharacterTextSplitter or CharacterTextSplitter
+        based on the split_method attribute.
+        
+        Returns:
+            list: List of document chunks after splitting.
+        """
         try:
             if self.split_method == "recursive":
                 # TODO: implement a way to add the characters e.g. \n \t etc
@@ -53,58 +84,39 @@ class Document:
             return []
 
     def __create_ids(self):
-        # Create IDs for each chunk
+        """Creates IDs for document chunks.
+
+        Returns:
+            list: IDs for document chunks (UUID4)
+        """
         return [str(uuid.uuid4()) for _ in self.split_document]
 
     def get_document(self):
-        # Return document
+        """Get full document.
+
+        Returns:
+            Full document that was loaded by loader.
+        """
         return self.document
 
     def get_split_document(self):
-        # Return document chunks
+        """Getter for document chunks.
+
+        Returns:
+            list: Document chunks
+        """
         return self.split_document
 
     def get_ids(self):
-        # Return list of IDs for document
+        """Returns list of document chunk ids.
+
+        Returns:
+            list: IDs for document chunks (UUID4)
+        """
         return self.split_document_ids
 
     def print_chunks(self):
-        # Print the chunked representation of the document
+        """Method to print document chunks with corresponding index number."""
         chunks = self.split()
         for i, chunk in enumerate(chunks):
             print(f"Document chunk {i}: {chunk}")
-
-
-# TODO: split out metadatas from docs - then update funcs for vectorDB.
-# TODO: will need to use add_texts vectorstore funcs, then we can use IDs, and save metadata to the Doc class
-# TODO: this will give ability tyo add more and delete documents and search more easily from metadata.
-# TODO: add function/method to clean the split texts - could try using ChatGPT to clean each sentence? Or
-
-# elif self.split_method == "tiktoken":
-#     splitter = CharacterTextSplitter.from_tiktoken_encoder(
-#         chunk_size=self.chunk_size,
-#         chunk_overlap=self.chunk_overlap
-#     )
-
-# def split_documents(self, documents: Iterable[Document]) -> List[Document]:
-#     """Split documents."""
-#     texts, metadatas = [], []
-#     for doc in documents:
-#         texts.append(doc.page_content)
-#         metadatas.append(doc.metadata)
-#     return self.create_documents(texts, metadatas=metadatas)
-
-# def create_documents(self, texts: List[str], metadatas: Optional[List[dict]] = None) -> List[Document]:
-#         """Create documents from a list of texts."""
-#         _metadatas = metadatas or [{}] * len(texts)
-#         documents = []
-#         for i, text in enumerate(texts):
-#             index = -1
-#             for chunk in self.split_text(text):
-#                 metadata = copy.deepcopy(_metadatas[i])
-#                 if self._add_start_index:
-#                     index = text.find(chunk, index + 1)
-#                     metadata["start_index"] = index
-#                 new_doc = Document(page_content=chunk, metadata=metadata)
-#                 documents.append(new_doc)
-#         return documents

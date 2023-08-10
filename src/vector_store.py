@@ -1,16 +1,34 @@
-"""Class and methods for vector database"""
-import logging
+"""Module for managing vector databases and related operations.
 
+This module provides the VectorStore class which offers functionalities for handling vector databases, 
+embedding documents, and performing similarity searches.
+"""
+import logging
 from langchain.vectorstores import FAISS, Chroma
 from langchain.embeddings import OpenAIEmbeddings
 
 
 class VectorStore:
+    """Class to handle vector databases and operations.
+
+    This class provides functionalities to:
+    - Create, save, and load vector databases.
+    - Add documents to vector databases.
+    - Perform similarity searches on vector databases.
+
+    Attributes:
+    - db_name (str): Name of the vector database (e.g., "FAISS").
+    - embeddings_model (str): Name of the embeddings model (e.g., "OpenAIEmbeddings").
+    - embeddings (object): Embeddings object based on embeddings_model.
+    - folder_path (str): Path to the folder where the database is or will be saved.
+    - index_name (str): Name of the database index.
+    - vector_store (object): Vector database object.
+    """
     def __init__(
         self,
         db_name="FAISS",
         embeddings_model="OpenAIEmbeddings",
-        folder_path="C:\\Users\\machris\\projects\\cs467-capstone\\db",
+        folder_path="../db",
         index_name="index",
     ):
         self.db_name = db_name
@@ -27,14 +45,29 @@ class VectorStore:
             raise ValueError(f"Invalid embeddings model: {self.embeddings_model}")
 
     def create_from_docs(self, documents, ids=None):
+        """Create a vector database from a list of documents.
+        
+        Args:
+            documents (list): List of documents to be added to the database.
+            ids (list, optional): List of IDs corresponding to the documents.
+        
+        Returns:
+            object: Vector database object.
+        """
         try:
             if self.db_name == "FAISS":
+                 # Will need to implement document IDs for the document chunks for more control over what is stored. This will always be None currently.
                 self.vector_store = FAISS.from_documents(
                     documents, self.embeddings, ids=ids
                 )
                 return self.vector_store
             elif self.db_name == "Chroma":
                 # TODO: implement Chroma
+                self.vector_store = Chroma.from_documents(
+                    documents=documents,
+                    embedding=self.embeddings,
+                    persist_directory="../db"
+                )
                 pass
             else:
                 raise ValueError(f"Invalid vector store: {self.db_name}")
@@ -43,7 +76,7 @@ class VectorStore:
             return None
 
     def save(self):
-        # Save current vector database
+        """Save the current vector database to a local directory."""
         try:
             if self.db_name == "FAISS":
                 self.vector_store.save_local(
@@ -58,7 +91,7 @@ class VectorStore:
             logging.error(f"Failed to save vector store: {e}")
 
     def load(self):
-        # Load vector database
+        """Load a vector database from a local directory."""
         try:
             if self.db_name == "FAISS":
                 self.vector_store = FAISS.load_local(
@@ -77,7 +110,14 @@ class VectorStore:
             return None
 
     def add_docs(self, documents):
-        # Add documents to vector_store
+        """Add documents to the vector database.
+        
+        Args:
+            documents (list): List of documents to be added.
+        
+        Returns:
+            list: List of document IDs added to the database.
+       """
         try:
             if self.db_name == "FAISS":
                 return self.vector_store.add_documents(documents)
@@ -91,36 +131,33 @@ class VectorStore:
             return []
 
     def similarity_search(self, query, k=4):
-        # Perform similarity search in database
+        """Perform a similarity search in the vector database.
+        
+        Args:
+            query (str): Query to search for.
+            k (int): Number of top results to retrieve.
+        
+        Returns:
+            list: List of most similar documents/entries.
+       """
         return self.vector_store.similarity_search(query=query, k=k)
 
     def similarity_search_with_score(self, query, k=4):
-        # Perform similarity search in database
+        """Perform a similarity search in the vector database and get scores.
+        
+        Args:
+            query (str): Query to search for.
+            k (int): Number of top results to retrieve.
+        
+        Returns:
+            list: List of most similar documents/entries along with scores.
+       """
         return self.vector_store.similarity_search_with_score(query=query, k=k)
 
     def retriever(self):
+        """Get the vector database retriever object.
+        
+        Returns:
+            object: Retriever object.
+       """
         return self.vector_store.as_retriever()
-
-
-# TODO: Once Document class has IDs and metadatas, we can update Vectorstore class with delete function and add_texts function.
-# TODO: this will give better control over the database and what docs we add/delete, and give future ability to search based on metadata (and alter it)
-# =
-# chroma_db = Chroma.from_documents(
-#     documents=documents,
-#     embedding=embeddings,
-#     persist_directory="../db"
-# )
-#     def embed_docs(self, documents):
-#     print(self.embeddings)
-#     return self.embeddings.embed_documents(documents)
-
-# def embed_query(self, query):
-#     return self.embeddings.embed_query(query)
-
-# from langchain.vectorstores import FAISS
-# faiss_db = FAISS.from_documents(documents, embeddings)
-# # faiss_db = FAISS.from_documents(documents, embeddings, persist_directory="db")
-
-# query = "What is the 90-day cost for metoprolol?"
-# docsearch = faiss_db.similarity_search(query, k=5) # can use k arg to specify how many similar sentences/objects. e.g. for 10 you call faiss_db.similarity_search(query, k=10)
-# docsearch

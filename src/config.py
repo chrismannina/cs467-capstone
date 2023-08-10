@@ -1,4 +1,7 @@
-"""Class and methods for app config"""
+"""Module for handling the application's configuration.
+
+This module provides the Config class, which manages the loading and access of the application's settings from a YAML file and environment variables.
+"""
 import os
 import yaml
 import logging
@@ -6,9 +9,19 @@ from dotenv import load_dotenv
 
 
 class Config:
-    _instance = None  # Holds single instance of Config once created
+    """Singleton class for managing the application's configuration.
+    
+    This class is responsible for loading the configuration from a YAML file 
+    and providing access to specific configuration values. It also manages
+    environment variables from a .env file.
+    
+    Attributes:
+        _instance: Singleton instance of the Config class.
+    """
+    _instance = None 
 
     def __new__(cls, filename):
+        """Ensure a single instance of Config and load the configuration."""
         if cls._instance is None:
             cls._instance = super(Config, cls).__new__(cls)
             try:
@@ -18,12 +31,14 @@ class Config:
         return cls._instance
 
     def _load(self, filename):
+        """Load the configuration from a YAML file and environment variables."""
         with open(filename, "r") as file:
             self.config = yaml.safe_load(file)
         load_dotenv(
             self.config.get("env_path")
-        )  # Load environment variables from .env file
+        ) 
 
+    # Below are properties that provide access to specific configuration values.
     @property
     def debug(self):
         return self.config.get("debug")
@@ -76,7 +91,6 @@ class Config:
     def file_log_level(self):
         return self.config.get("file_log_level")
 
-    # Logging - document retrieval
     @property
     def log_doc_retrieval(self):
         return self.config.get("log_doc_retrieval")
@@ -90,13 +104,14 @@ class Config:
         return self.config.get("doc_retrieval_log_level")
 
     def get_config_value(self, key):
-        # Get configuration value from key name (e.g. filename)
+        """Get configuration value from key name (e.g. filename)."""
         return self.config.get(key)
 
     def get_env_value(self, key):
-        # Get environment variable from key name (e.g. OPENAI_API_KEY)
+        """Get environment variable from key name (e.g. OPENAI_API_KEY)"""
         return os.getenv(key)
 
+    # Below are setters that provide access to changing specific configuration values.
     @llm_model.setter
     def llm_model(self, value):
         self._llm_model = value
