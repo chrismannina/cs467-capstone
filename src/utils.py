@@ -1,5 +1,10 @@
 import re
+import logging
 import requests
+import openai
+
+# Set up a logger for the function
+logger = logging.getLogger(__name__)
 
 
 def validate_openai_key(api_key):
@@ -12,27 +17,27 @@ def validate_openai_key(api_key):
     Returns:
     - bool: True if the API key is valid, False otherwise.
     """
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json",
-    }
 
-    data = {
-        "model": "text-davinci-003",
-        "prompt": "Translate the following English text to French: 'Hello'",
-        "max_tokens": 10,
-    }
-
-    response = requests.post(
-        "https://api.openai.com/v1/engines/davinci/completions",
-        headers=headers,
-        json=data,
-    )
-
-    # Check if the response status code is 200 (OK)
-    if response.status_code == 200:
-        return True
-    else:
+    openai.api_key = api_key
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": "Say 'CHEESE'."},
+            ],
+            max_tokens=10,
+        )
+        # Check if the response has an 'id' attribute, indicating success
+        if hasattr(response, "id"):
+            return True
+        else:
+            logger.warning(
+                f"OpenAI API did not return the expected response. Response: {response}"
+            )
+            return False
+    except Exception as e:
+        logger.error(f"Error occurred while validating OpenAI API key: {e}")
         return False
 
 
