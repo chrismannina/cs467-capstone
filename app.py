@@ -86,7 +86,23 @@ def main():
 
     # Sidebar for settings, document upload, and application information
     with st.sidebar:
-        
+        with st.expander(":computer: About", expanded=False):
+            st.markdown("### Medical Document Q&A")
+            st.markdown("#### How it works?")
+            st.markdown(
+                """When a document is uploaded, text is extracted from the document. This text is then split into shorter text chunks, 
+                        and an embedding is created for each text chunk. When the user asks a question, an embedding is created for the question, 
+                        and a similarity search is performed to find the file chunk embeddings that are most similar to the question (i.e. have highest 
+                        cosine similarities with the question embedding). An API call is then made to the completions endpoint, with the question and 
+                        the most relevant file chunks are included in the prompt. The generative model then gives the answer to the question found in 
+                        the file chunks, if the answer can be found in the extracts.
+                        """
+            )
+            st.markdown("---")
+            st.markdown(
+                "Made by Chris Mannina [📧](mailto:manninac@oregonstate.edu) | [👤](https://github.com/chrismannina)"
+            )
+
         with st.expander(":key: OpenAI API Key", expanded=True):
             # Check if API key is set to visible, default is hidden
             if "api_key_visible" not in st.session_state:
@@ -123,7 +139,7 @@ def main():
                     st.success("OpenAI API key reset successfully!", icon="✅")
                 except Exception as e:
                     logger.error(f"Failed to delete API key: {e}")
-                
+
         with st.expander(":gear: Settings", expanded=False):
             if not st.session_state.get("data_processed"):
                 # Model selection
@@ -159,7 +175,10 @@ def main():
                 )
 
             if st.session_state.get("data_processed"):
-                if st.button("Reset App", help="Reset chat and load a different document for Q&A."):
+                if st.button(
+                    "Reset App",
+                    help="Reset chat and load a different document for Q&A.",
+                ):
                     # Path to database files
                     db_dir = "./db"
 
@@ -171,8 +190,9 @@ def main():
                             if os.path.isfile(file_path) and file != ".gitkeep":
                                 os.remove(file_path)
                         except Exception as e:
-                            logger.error(f"Error deleting file {file_path}. Reason: {e}")
-
+                            logger.error(
+                                f"Error deleting file {file_path}. Reason: {e}"
+                            )
 
                     # Reset session state variables
                     if "data_processed" in st.session_state:
@@ -245,23 +265,6 @@ def main():
                             # Mark that data processing is complete
                             st.session_state.data_processed = True
 
-        with st.expander(":computer: About", expanded=False):
-            st.markdown("### Medical Document Q&A")
-            st.markdown("#### How it works?")
-            st.markdown(
-                """When a document is uploaded, text is extracted from the document. This text is then split into shorter text chunks, 
-                        and an embedding is created for each text chunk. When the user asks a question, an embedding is created for the question, 
-                        and a similarity search is performed to find the file chunk embeddings that are most similar to the question (i.e. have highest 
-                        cosine similarities with the question embedding). An API call is then made to the completions endpoint, with the question and 
-                        the most relevant file chunks are included in the prompt. The generative model then gives the answer to the question found in 
-                        the file chunks, if the answer can be found in the extracts.
-                        """
-            )
-            st.markdown("---")
-            st.markdown(
-                "Made by Chris Mannina [📧](mailto:machris@umich.edu) | [👤](https://github.com/chrismannina)"
-            )
-
     # Q&A Section
     if "conversation" not in st.session_state:
         with st.expander(":information_source: Getting Started", expanded=True):
@@ -269,7 +272,9 @@ def main():
             st.markdown("- Adjust settings if preferred.")
             st.markdown("- Upload your document(s).")
             st.markdown("- Ask a question about the uploaded document(s).")
-            st.markdown("- Get response and view retrieved document chunks for more context.")
+            st.markdown(
+                "- Get response and view retrieved document chunks for more context."
+            )
 
     if "conversation" in st.session_state:
         user_question = st.text_input(
