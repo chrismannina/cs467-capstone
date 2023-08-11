@@ -6,3 +6,4 @@ src/__pycache__
 /new_env
 /logs/*.log
 !/logs/.gitkeep
+.DS_Store
