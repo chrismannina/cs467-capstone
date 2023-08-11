@@ -11,7 +11,6 @@ from src.vector_store import VectorStore
 from src.chat import Chat
 from src.utils import validate_openai_key
 
-# cfg_file = r".\config.yaml"
 cfg_file = "./config/cfg_mac.yaml"
 
 
@@ -249,7 +248,7 @@ def main():
                             )
                             # Mark that data processing is complete
                             st.session_state.data_processed = True
-                            
+
         with st.expander(":computer: About", expanded=False):
             st.markdown("### Medical Document Q&A")
             st.markdown("#### How it works?")
