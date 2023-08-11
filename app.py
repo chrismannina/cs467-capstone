@@ -86,12 +86,7 @@ def main():
 
     # Sidebar for settings, document upload, and application information
     with st.sidebar:
-        with st.expander(":information_source: Getting Started", expanded=False):
-            st.markdown("- Adjust settings if required.")
-            st.markdown("- Upload your medical documents.")
-            st.markdown("- Ask any relevant questions about the document.")
-            st.markdown("- View retrieved document chunks for more context.")
-
+        
         with st.expander(":key: OpenAI API Key", expanded=True):
             # Check if API key is set to visible, default is hidden
             if "api_key_visible" not in st.session_state:
@@ -105,7 +100,7 @@ def main():
             submit_button, reset_button = st.columns(2)
 
             # If "Submit" button is pressed, set the API key.
-            if submit_button.button("Submit Key"):
+            if submit_button.button("Submit Key", help="Set your API key."):
                 if api_key_input == "cant stop":
                     st.session_state.api_key = api_key_input
                     st.success("addicted to the shingdig", icon="🌶️")
@@ -118,7 +113,7 @@ def main():
                         "Invalid OpenAI key. Please enter a valid OpenAI key.", icon="🚨"
                     )
             # Reset API key
-            if reset_button.button("Reset Key"):
+            if reset_button.button("Reset Key", help="Removes API key."):
                 try:
                     del st.session_state.api_key
                 except Exception as e:
@@ -164,7 +159,7 @@ def main():
                 )
 
             if st.session_state.get("data_processed"):
-                if st.button("Reset", help="Reset chat and load a different document for Q&A."):
+                if st.button("Reset App", help="Reset chat and load a different document for Q&A."):
                     # Path to database files
                     db_dir = "./db"
 
@@ -268,6 +263,14 @@ def main():
             )
 
     # Q&A Section
+    if "conversation" not in st.session_state:
+        with st.expander(":information_source: Getting Started", expanded=True):
+            st.markdown("- Enter your OpenAI API key.")
+            st.markdown("- Adjust settings if preferred.")
+            st.markdown("- Upload your document(s).")
+            st.markdown("- Ask a question about the uploaded document(s).")
+            st.markdown("- Get response and view retrieved document chunks for more context.")
+
     if "conversation" in st.session_state:
         user_question = st.text_input(
             "Enter your question about the uploaded documents:"
