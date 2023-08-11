@@ -104,12 +104,12 @@ def main():
             # Place "Submit" and "Reset" buttons on the same row
             submit_button, reset_button = st.columns(2)
 
-            # If "Submit" button is pressed, set the API key. For debugging, added a maple-syrup exception to set .env
+            # If "Submit" button is pressed, set the API key.
             if submit_button.button("Submit Key"):
                 if api_key_input == "cant stop":
                     st.session_state.api_key = api_key_input
-                    st.success("Hello, World!", icon="🍁")
-                elif validate_openai_key(api_key_input) or api_key_input == "cant stop":
+                    st.success("addicted to the shingdig", icon="🌶️")
+                elif validate_openai_key(api_key_input):
                     st.session_state.api_key = api_key_input
                     os.environ["OPENAI_API_KEY"] = api_key_input
                     st.success("API key accepted!", icon="✅")
@@ -119,22 +119,16 @@ def main():
                     )
             # Reset API key
             if reset_button.button("Reset Key"):
-                if "api_key" in st.session_state:
-                    if (
-                        st.session_state.api_key == "cant stop"
-                        and api_key_input == "addicted to the shindig"
-                    ):
-                        del st.session_state.api_key
-                        load_dotenv(cfg.get_config_value("env_path"))
-                        st.info("OpenAI API key reloaded.", icon="🍁")
-                    else:
-                        del st.session_state.api_key
-                        try:
-                            del os.environ["OPENAI_API_KEY"]
-                            st.success("OpenAI API key reset successfully!", icon="✅")
-                        except Exception as e:
-                            logger.error(f"Failed to delete API key: {e}")
-
+                try:
+                    del st.session_state.api_key
+                except Exception as e:
+                    logger.error(f"API key not in Streamlit session state: {e}")
+                try:
+                    del os.environ["OPENAI_API_KEY"]
+                    st.success("OpenAI API key reset successfully!", icon="✅")
+                except Exception as e:
+                    logger.error(f"Failed to delete API key: {e}")
+                
         with st.expander(":gear: Settings", expanded=False):
             if not st.session_state.get("data_processed"):
                 # Model selection
