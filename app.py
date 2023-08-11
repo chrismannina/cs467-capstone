@@ -164,7 +164,7 @@ def main():
                 )
 
             if st.session_state.get("data_processed"):
-                if st.button("Reset App"):
+                if st.button("Reset", help="Reset chat and load a different document for Q&A."):
                     # Path to database files
                     db_dir = "./db"
 
