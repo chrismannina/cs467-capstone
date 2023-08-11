@@ -176,7 +176,14 @@ def main():
 
                     # Delete the database files
                     for file in os.listdir(db_dir):
-                        os.remove(os.path.join(db_dir, file))
+                        file_path = os.path.join(db_dir, file)
+                        try:
+                            # Check if it's a file and not named .gitkeep
+                            if os.path.isfile(file_path) and file != ".gitkeep":
+                                os.remove(file_path)
+                        except Exception as e:
+                            logger.error(f"Error deleting file {file_path}. Reason: {e}")
+
 
                     # Reset session state variables
                     if "data_processed" in st.session_state:
@@ -194,8 +201,6 @@ def main():
                     ":blue[Upload Medical PDFs]", accept_multiple_files=True
                 )
                 if st.button("Process Document") and uploaded_files:
-                    os.environ["OPENAI_API_KEY"] = "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"
-                    print(os.getenv("OPENAI_API_KEY"))
                     if not os.getenv("OPENAI_API_KEY", None):
                         st.warning("Please enter a valid OpenAI API key.", icon="⚠️")
                         logger.info("Processing document error: invalid API key")

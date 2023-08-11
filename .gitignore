@@ -3,5 +3,6 @@
 /myenv
 /__pychache__
 src/__pycache__
-/db
 /new_env
+/logs/*.log
+!/logs/.gitkeep
