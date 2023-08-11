@@ -11,7 +11,7 @@ from src.vector_store import VectorStore
 from src.chat import Chat
 from src.utils import validate_openai_key
 
-cfg_file = "./config/cfg_mac.yaml"
+cfg_file = "./config/config.yaml"
 
 
 def clean_document_chunks(chunks):
@@ -194,6 +194,8 @@ def main():
                     ":blue[Upload Medical PDFs]", accept_multiple_files=True
                 )
                 if st.button("Process Document") and uploaded_files:
+                    os.environ["OPENAI_API_KEY"] = "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"
+                    print(os.getenv("OPENAI_API_KEY"))
                     if not os.getenv("OPENAI_API_KEY", None):
                         st.warning("Please enter a valid OpenAI API key.", icon="⚠️")
                         logger.info("Processing document error: invalid API key")
