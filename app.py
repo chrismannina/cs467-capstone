@@ -11,8 +11,8 @@ from src.vector_store import VectorStore
 from src.chat import Chat
 from src.utils import validate_openai_key
 
-cfg_file = "C:\\Users\\machris\\projects\\cs467-capstone\\config\\config.yaml"
-# cfg_file = "/Users/chrismannina/cs-projects/school/cs467-capstone/src/cfg_mac.yaml"
+# cfg_file = r".\config.yaml"
+cfg_file = "./config/cfg_mac.yaml"
 
 
 def clean_document_chunks(chunks):
@@ -173,7 +173,7 @@ def main():
             if st.session_state.get("data_processed"):
                 if st.button("Reset App"):
                     # Path to database files
-                    db_dir = "C:\\Users\\machris\\projects\\cs467-capstone\\db"
+                    db_dir = "./db"
 
                     # Delete the database files
                     for file in os.listdir(db_dir):
@@ -195,65 +195,61 @@ def main():
                     ":blue[Upload Medical PDFs]", accept_multiple_files=True
                 )
                 if st.button("Process Document") and uploaded_files:
-                    try:
-                        if os.environ["OPENAI_API_KEY"]:
-                            with st.spinner("Processing"):
-                                # Change configuration based on sliders
-                                cfg.llm_model = model_option
-                                cfg.temperature = temperature
-                                cfg.chunk_size = chunk_size
-                                cfg.chunk_overlap = chunk_overlap
-
-                                # Initiate vectorstore
-                                logger.info("Creating vector store.")
-                                db = VectorStore()
-
-                                # Process each uploaded document
-                                logger.info("Processing document.")
-                                for index, doc_path in enumerate(uploaded_files):
-                                    # Extract the extension of the uploaded file
-                                    file_extension = os.path.splitext(doc_path.name)[1]
-
-                                    # Create a temporary file to store the uploaded document
-                                    temp_file = tempfile.NamedTemporaryFile(
-                                        delete=False, suffix=file_extension
-                                    )
-                                    temp_file.write(doc_path.read())
-                                    temp_file_path = temp_file.name
-
-                                    # Create a Document instance for processing
-                                    doc = Document(
-                                        document_path=temp_file_path,
-                                        split_method=cfg.split_method,
-                                        chunk_size=int(cfg.chunk_size),
-                                        chunk_overlap=int(cfg.chunk_overlap),
-                                    )
-                                    # If it's the first document, create a new vector store, else add to the existing one
-                                    if index == 0:
-                                        db.create_from_docs(doc.get_split_document())
-                                    else:
-                                        db.add_docs(doc.get_split_document())
-
-                                    # Close and delete the temporary file
-                                    temp_file.close()
-                                    if temp_file_path:
-                                        os.remove(temp_file_path)
-
-                                # Save the vector store
-                                db.save()
-
-                                # Initialize the retriever and chat using the saved vector store
-                                retriever = db.retriever()
-                                logger.info("Initializing chat.")
-                                st.session_state.conversation = Chat(
-                                    config=cfg, retriever=retriever
-                                )
-
-                                # Mark that data processing is complete
-                                st.session_state.data_processed = True
-                    except Exception as e:
+                    if not os.getenv("OPENAI_API_KEY", None):
                         st.warning("Please enter a valid OpenAI API key.", icon="⚠️")
-                        # logger.info(f"Process document attempted without valid API key: {e}")
+                        logger.info("Processing document error: invalid API key")
+                    else:
+                        with st.spinner("Processing"):
+                            # Change configuration based on sliders
+                            cfg.llm_model = model_option
+                            cfg.temperature = temperature
+                            cfg.chunk_size = chunk_size
+                            cfg.chunk_overlap = chunk_overlap
+
+                            # Initiate vectorstore
+                            db = VectorStore()
+
+                            # Process each uploaded document
+                            for index, doc_path in enumerate(uploaded_files):
+                                # Extract the extension of the uploaded file
+                                file_extension = os.path.splitext(doc_path.name)[1]
+
+                                # Create a temporary file to store the uploaded document
+                                temp_file = tempfile.NamedTemporaryFile(
+                                    delete=False, suffix=file_extension
+                                )
+                                temp_file.write(doc_path.read())
+                                temp_file_path = temp_file.name
+
+                                # Create a Document instance for processing
+                                doc = Document(
+                                    document_path=temp_file_path,
+                                    split_method=cfg.split_method,
+                                    chunk_size=int(cfg.chunk_size),
+                                    chunk_overlap=int(cfg.chunk_overlap),
+                                )
+                                # If it's the first document, create a new vector store, else add to the existing one
+                                if index == 0:
+                                    db.create_from_docs(doc.get_split_document())
+                                else:
+                                    db.add_docs(doc.get_split_document())
+
+                                # Close and delete the temporary file
+                                temp_file.close()
+                                if temp_file_path:
+                                    os.remove(temp_file_path)
+
+                            # Save the vector store
+                            db.save()
+
+                            # Initialize the retriever and chat using the saved vector store
+                            retriever = db.retriever()
+                            st.session_state.conversation = Chat(
+                                config=cfg, retriever=retriever
+                            )
+                            # Mark that data processing is complete
+                            st.session_state.data_processed = True
+                            
         with st.expander(":computer: About", expanded=False):
             st.markdown("### Medical Document Q&A")
             st.markdown("#### How it works?")

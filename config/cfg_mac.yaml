@@ -20,10 +20,10 @@ console_log_level: INFO
 
 log_to_file: True
 file_log_level: INFO
-log_file_name: /Users/chrismannina/cs-projects/school/cs467-capstone/logs/app.log
+log_file_name: ./logs/app.log
 
 log_doc_retrieval: True
-doc_retrieval_log_file_name: /Users/chrismannina/cs-projects/school/cs467-capstone/logs/doc_retrieval.log
+doc_retrieval_log_file_name: ./logs/doc_retrieval.log
 doc_retrieval_log_level: INFO
 
 # Environment variables
