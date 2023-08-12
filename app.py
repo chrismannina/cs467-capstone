@@ -11,7 +11,7 @@ from src.vector_store import VectorStore
 from src.chat import Chat
 from src.utils import validate_openai_key
 
-cfg_file = "./config/config.yaml"
+cfg_file = "./config/cfg_mac.yaml"
 
 
 def clean_document_chunks(chunks):
