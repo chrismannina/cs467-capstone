@@ -7,11 +7,6 @@ vector_store: FAISS
 embedding_model: OpenAIEmbeddings
 
 # Document
-document_paths:
-  # - /Users/chrismannina/cs-projects/school/cs467-capstone/files/How I treat acute myeloid leukemia in the era of new drugs.pdf
-  # - /Users/chrismannina/cs-projects/school/cs467-capstone/files/NCCN_aml_2023_Guidelines.pdf
-  - C:\\Users\\machris\\projects\\cs467-capstone\\files\\NCCN_aml_2023_Guidelines.pdf
-  - C:\\Users\\machris\\projects\\cs467-capstone\\files\\How I treat acute myeloid leukemia in the era of new drugs.pdf
 split_method: recursive
 chunk_size: 2000
 chunk_overlap: 200
@@ -22,11 +17,8 @@ console_log_level: INFO
 
 log_to_file: True
 file_log_level: INFO
-log_file_name: C:\\Users\\machris\\projects\\cs467-capstone\\logs\\app.log
+log_file_name: ./logs/app.log
 
-log_doc_retrieval: True
-doc_retrieval_log_file_name: C:\\Users\\machris\\projects\\cs467-capstone\\logs\\doc_retrieval.log
+log_doc_retrieval: False
+doc_retrieval_log_file_name: ./logs/doc_retrieval.log
 doc_retrieval_log_level: INFO
-
-# Environment variables
-env_path: C:\\Users\\machris\\projects\\cs467-capstone\\config\\.env #  /Users/chrismannina/cs-projects/school/cs467-capstone/.env

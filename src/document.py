@@ -53,6 +53,7 @@ class Document:
                 loader = PyPDFLoader(self.document_path)
             else:
                 raise ValueError(f"Invalid document path: {self.document_path}")
+            logging.info(f"Document loaded: {self.document_path}")
             return loader.load()
         except Exception as e:
             logging.error(f"Failed to load document: {e}")
@@ -98,6 +99,7 @@ class Document:
         Returns:
             Full document that was loaded by loader.
         """
+        logging.info(f"Returning document: {self.document_path}")
         return self.document
 
     def get_split_document(self):
@@ -106,6 +108,7 @@ class Document:
         Returns:
             list: Document chunks
         """
+        logging.info(f"Returning split documents: {self.document_path}")
         return self.split_document
 
     def get_ids(self):

@@ -11,8 +11,7 @@ from src.vector_store import VectorStore
 from src.chat import Chat
 from src.utils import validate_openai_key
 
-# cfg_file = r".\config.yaml"
-cfg_file = "./config/cfg_mac.yaml"
+cfg_file = "./config/config.yaml"
 
 
 def clean_document_chunks(chunks):
@@ -87,11 +86,22 @@ def main():
 
     # Sidebar for settings, document upload, and application information
     with st.sidebar:
-        with st.expander(":information_source: Getting Started", expanded=False):
-            st.markdown("- Adjust settings if required.")
-            st.markdown("- Upload your medical documents.")
-            st.markdown("- Ask any relevant questions about the document.")
-            st.markdown("- View retrieved document chunks for more context.")
+        with st.expander(":computer: About", expanded=False):
+            st.markdown("### Medical Document Q&A")
+            st.markdown("#### How it works?")
+            st.markdown(
+                """When a document is uploaded, text is extracted from the document. This text is then split into smaller text chunks, 
+                        and an embedding is created for each chunk. When the user asks a question, an embedding is created for the question, 
+                        and a similarity search is performed to find the document chunks that are most similar to the question. Once the
+                        relevant documents are return, a prompt is crafted with the user question and relevant context, and an API call is 
+                        then made to the chat completions endpoint. The LLM model then gives the answer to the question using the document
+                        chunks as context. 
+                        """
+            )
+            st.markdown("---")
+            st.markdown(
+                "Made by Chris Mannina [📧](mailto:manninac@oregonstate.edu) | [👤](https://github.com/chrismannina)"
+            )
 
         with st.expander(":key: OpenAI API Key", expanded=True):
             # Check if API key is set to visible, default is hidden
@@ -105,12 +115,12 @@ def main():
             # Place "Submit" and "Reset" buttons on the same row
             submit_button, reset_button = st.columns(2)
 
-            # If "Submit" button is pressed, set the API key. For debugging, added a maple-syrup exception to set .env
-            if submit_button.button("Submit Key"):
+            # If "Submit" button is pressed, set the API key.
+            if submit_button.button("Submit Key", help="Set your API key."):
                 if api_key_input == "cant stop":
                     st.session_state.api_key = api_key_input
-                    st.success("Hello, World!", icon="🍁")
-                elif validate_openai_key(api_key_input) or api_key_input == "cant stop":
+                    st.success("addicted to the shingdig", icon="🌶️")
+                elif validate_openai_key(api_key_input):
                     st.session_state.api_key = api_key_input
                     os.environ["OPENAI_API_KEY"] = api_key_input
                     st.success("API key accepted!", icon="✅")
@@ -119,22 +129,16 @@ def main():
                         "Invalid OpenAI key. Please enter a valid OpenAI key.", icon="🚨"
                     )
             # Reset API key
-            if reset_button.button("Reset Key"):
-                if "api_key" in st.session_state:
-                    if (
-                        st.session_state.api_key == "cant stop"
-                        and api_key_input == "addicted to the shindig"
-                    ):
-                        del st.session_state.api_key
-                        load_dotenv(cfg.get_config_value("env_path"))
-                        st.info("OpenAI API key reloaded.", icon="🍁")
-                    else:
-                        del st.session_state.api_key
-                        try:
-                            del os.environ["OPENAI_API_KEY"]
-                            st.success("OpenAI API key reset successfully!", icon="✅")
-                        except Exception as e:
-                            logger.error(f"Failed to delete API key: {e}")
+            if reset_button.button("Reset Key", help="Removes API key."):
+                try:
+                    del st.session_state.api_key
+                except Exception as e:
+                    logger.error(f"API key not in Streamlit session state: {e}")
+                try:
+                    del os.environ["OPENAI_API_KEY"]
+                    st.success("OpenAI API key reset successfully!", icon="✅")
+                except Exception as e:
+                    logger.error(f"Failed to delete API key: {e}")
 
         with st.expander(":gear: Settings", expanded=False):
             if not st.session_state.get("data_processed"):
@@ -171,13 +175,24 @@ def main():
                 )
 
             if st.session_state.get("data_processed"):
-                if st.button("Reset App"):
+                if st.button(
+                    "Reset App",
+                    help="Reset chat and load a different document for Q&A.",
+                ):
                     # Path to database files
                     db_dir = "./db"
 
                     # Delete the database files
                     for file in os.listdir(db_dir):
-                        os.remove(os.path.join(db_dir, file))
+                        file_path = os.path.join(db_dir, file)
+                        try:
+                            # Check if it's a file and not named .gitkeep
+                            if os.path.isfile(file_path) and file != ".gitkeep":
+                                os.remove(file_path)
+                        except Exception as e:
+                            logger.error(
+                                f"Error deleting file {file_path}. Reason: {e}"
+                            )
 
                     # Reset session state variables
                     if "data_processed" in st.session_state:
@@ -249,25 +264,18 @@ def main():
                             )
                             # Mark that data processing is complete
                             st.session_state.data_processed = True
-                            
-        with st.expander(":computer: About", expanded=False):
-            st.markdown("### Medical Document Q&A")
-            st.markdown("#### How it works?")
-            st.markdown(
-                """When a document is uploaded, text is extracted from the document. This text is then split into shorter text chunks, 
-                        and an embedding is created for each text chunk. When the user asks a question, an embedding is created for the question, 
-                        and a similarity search is performed to find the file chunk embeddings that are most similar to the question (i.e. have highest 
-                        cosine similarities with the question embedding). An API call is then made to the completions endpoint, with the question and 
-                        the most relevant file chunks are included in the prompt. The generative model then gives the answer to the question found in 
-                        the file chunks, if the answer can be found in the extracts.
-                        """
-            )
-            st.markdown("---")
-            st.markdown(
-                "Made by Chris Mannina [📧](mailto:machris@umich.edu) | [👤](https://github.com/chrismannina)"
-            )
 
     # Q&A Section
+    if "conversation" not in st.session_state:
+        with st.expander(":information_source: Getting Started", expanded=True):
+            st.markdown("- Enter your OpenAI API key.")
+            st.markdown("- Adjust settings if preferred.")
+            st.markdown("- Upload your document(s).")
+            st.markdown("- Ask a question about the uploaded document(s).")
+            st.markdown(
+                "- Get response and view retrieved document chunks for more context."
+            )
+
     if "conversation" in st.session_state:
         user_question = st.text_input(
             "Enter your question about the uploaded documents:"

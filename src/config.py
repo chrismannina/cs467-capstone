@@ -35,7 +35,11 @@ class Config:
         """Load the configuration from a YAML file and environment variables."""
         with open(filename, "r") as file:
             self.config = yaml.safe_load(file)
-        load_dotenv(self.config.get("env_path"))
+
+        # Get the env_path, or None if it's not set
+        env_path = self.config.get("env_path", None)
+        if env_path:
+            load_dotenv(env_path)
 
     # Below are properties that provide access to specific configuration values.
     @property
