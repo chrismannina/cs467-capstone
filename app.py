@@ -2,7 +2,6 @@ import os
 import tempfile
 import re
 import streamlit as st
-from dotenv import load_dotenv
 
 from src.config import Config
 from src.log import setup_logging
@@ -12,12 +11,84 @@ from src.chat import Chat
 from src.utils import validate_openai_key
 from src.prompts import QA_PROMPTS
 
-cfg_file = "./config/cfg_mac.yaml"
+CFG_FILE = "./config/cfg_mac.yaml"
+SAMPLE_DB_DIR = "./db_sample"
+SAMPLE_FILES = ["./files/sample/CS467_Schedule.pdf", "./files/sample/CS467_Syllabus.pdf"]
+OSU_CS467_DEMO = True
+
+def has_files_except_gitkeep(directory_path):
+    """
+    Check if a directory contains files other than .gitkeep.
+
+    Args:
+        directory_path (str): The path to the directory.
+
+    Returns:
+        bool: True if there are files other than .gitkeep, False otherwise.
+    """
+    # List all files in the directory
+    files = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
+    
+    # Filter out .gitkeep
+    files = [f for f in files if f != ".gitkeep"]
+
+    # Return True if there are other files, False otherwise
+    return bool(files)
 
 
-def get_prompt(category, prompt_name):
-    return QA_PROMPTS[category][prompt_name]["prompt"]
+# def load_sample_db(config, file_dir=SAMPLE_FILES_DIR, db_dir=SAMPLE_DB_DIR):
+#     """Load sample vector database that contains sample files for demo. If database directory does not
+#     exist, prepare documents, load database, and save. 
 
+#     Args:
+#         file_dir (str, optional): Path to file directory. Defaults to SAMPLE_FILES_DIR.
+#         db_dir (str, optional): Path to vector database directory. Defaults to SAMPLE_DB_DIR.
+
+#     Returns:
+#         object: Loaded vector database.
+#     """
+#     # Check if db_dir exists
+#     if not os.path.exists(db_dir):
+#         # If not, prepare the documents, create the vector database, and save
+#         vector_db = prepare_vector_db(config, file_dir, db_dir)
+#         vector_db.save()
+#     else:
+#         # If db_dir exists, load the vector database
+#         vector_db = VectorStore()
+#         vector_db.load(db_dir)
+    
+#     return vector_db
+
+# def prepare_vector_db(config, file_dir, db_dir):
+#     """
+#     Process files in file_dir, extract text, split into chunks, generate embeddings, 
+#     and create a vector database.
+
+#     Args:
+#         file_dir (str): The directory where the sample files are stored.
+
+#     Returns:
+#         VectorStore: A vector database with the embeddings of the document chunks.
+#     """
+#     # Initiate vectorstore
+#     db = VectorStore(folder_path=db_dir)
+
+#     # Process each uploaded document
+#     for index, file_path in enumerate(file_dir):
+#         # Create a Document instance for processing
+#         doc = Document(
+#             document_path=file_path,
+#             split_method=config.split_method,
+#             chunk_size=int(config.chunk_size),
+#             chunk_overlap=int(config.chunk_overlap),
+#         )
+#         # If it's the first document, create a new vector store, else add to the existing one
+#         if index == 0:
+#             db.create_from_docs(doc.get_split_document())
+#         else:
+#             db.add_docs(doc.get_split_document())
+
+#     return db
 
 def clean_document_chunks(chunks):
     """
@@ -77,7 +148,7 @@ def main():
     st.markdown(hide_default_format, unsafe_allow_html=True)
 
     # Load configuration
-    cfg = Config(cfg_file)
+    cfg = Config(CFG_FILE)
 
     # Set up logging
     logger = setup_logging(cfg)
@@ -108,7 +179,7 @@ def main():
                 "Made by Chris Mannina [📧](mailto:manninac@oregonstate.edu) | [👤](https://github.com/chrismannina)"
             )
 
-        with st.expander(":key: OpenAI API Key", expanded=True):
+        with st.expander(":key: OpenAI API Key", expanded=False):
             # Check if API key is set to visible, default is hidden
             if "api_key_visible" not in st.session_state:
                 st.session_state.api_key_visible = False
@@ -144,8 +215,9 @@ def main():
                     st.success("OpenAI API key reset successfully!", icon="✅")
                 except Exception as e:
                     logger.error(f"Failed to delete API key: {e}")
-
-        with st.expander(":gear: Settings", expanded=False):
+        # Only expand the settings if we have an active chat so the user can easily access the reset button.
+        expanded_settings = True if st.session_state.get("data_processed") else False
+        with st.expander(":gear: Settings", expanded=expanded_settings):
             if not st.session_state.get("data_processed"):
                 # Model selection
                 model_option = st.selectbox(
@@ -232,7 +304,7 @@ def main():
         if not st.session_state.get("data_processed"):
             with st.expander(":file_folder: Upload Documents", expanded=False):
                 uploaded_files = st.file_uploader(
-                    ":violet[Upload PDFs]", accept_multiple_files=True
+                    ":orange[Upload PDFs]", accept_multiple_files=True
                 )
                 if st.button("Process Document") and uploaded_files:
                     if not os.getenv("OPENAI_API_KEY", None):
@@ -291,6 +363,67 @@ def main():
                             )
                             # Mark that data processing is complete
                             st.session_state.data_processed = True
+            if OSU_CS467_DEMO:               
+                with st.expander(":floppy_disk: :orange[Load Demo]", expanded=False):
+                    st.markdown("Click button below to start application with sample files and guest API key to easily test application.")
+                    st.markdown("- Select the :orange[prompt] you want to use above (or leave as default). Try some from the 'Humor' category.")
+                    st.markdown("- Two PDFs already embedded, stored, and prepared for Q&A: **CS467 Syllabus** and **Schedule**.")
+                    st.markdown("- Guest API key provided for Q&A with **sample documents only**.")
+                    st.markdown("- Modify :orange[settings] above if preferred. Try changing the ChatGPT version.")
+                    st.markdown("- If you have your own API key, feel free to enter it and try out the application on your own documents!")
+                    # TODO: Will need to reset environment variable if user decides to use demo then reset app. Could cause a bug where they do not need their own API key.     
+                    if st.button(":beaver: :orange[OSU CS467 Demo]"):
+                        try:
+                            os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+                            logger.info("OpenAI key set for demo.")
+                        except:
+                            st.error("Failure to set environment variable.", icon="🚨")
+                            logger.error("Failure to set environment variable.")
+                        with st.spinner("Processing"):
+
+                            # Change configuration based on sliders
+                            cfg.llm_model = model_option
+                            cfg.temperature = temperature
+                            cfg.chunk_size = chunk_size
+                            cfg.chunk_overlap = chunk_overlap
+
+                            # Load sample db
+                            if has_files_except_gitkeep(SAMPLE_DB_DIR):
+                                # If db_dir exists, load the vector database
+                                db = VectorStore(folder_path=SAMPLE_DB_DIR)
+                                db.load()
+                            else:
+                                db = VectorStore(folder_path=SAMPLE_DB_DIR)
+                                index = 0
+                                # Process each uploaded document
+                                for file_path in SAMPLE_FILES:
+                                    
+                                # for index, file_path in enumerate(SAMPLE_FILES_DIR):
+                                    # Create a Document instance for processing
+                                    doc = Document(
+                                        document_path=file_path,
+                                        split_method=cfg.split_method,
+                                        chunk_size=int(cfg.chunk_size),
+                                        chunk_overlap=int(cfg.chunk_overlap),
+                                    )
+                                    # If it's the first document, create a new vector store, else add to the existing one
+                                    if index == 0:
+                                        db.create_from_docs(doc.get_split_document())
+                                    else:
+                                        db.add_docs(doc.get_split_document())
+                                    index += 1
+
+                                db.save()
+
+                            # Initialize the retriever and chat using the saved vector store
+                            retriever = db.retriever()
+                            st.session_state.conversation = Chat(
+                                config=cfg,
+                                retriever=retriever,
+                                qa_prompt=selected_prompt,
+                            )
+                            # Mark that data processing is complete
+                            st.session_state.data_processed = True
 
     # Q&A Section
     if "conversation" not in st.session_state:
@@ -303,7 +436,11 @@ def main():
             st.markdown(
                 "- Get response and view retrieved document chunks for more context."
             )
-
+            if OSU_CS467_DEMO:
+                st.markdown("---")
+                st.markdown("""
+                            ##### <p style="text-align: center;">For OSU CS467 demo, use :orange[Load Demo] in the sidebar.</p>""", unsafe_allow_html=True)
+            ##### For CS467 demo, use :orange[Load Demo] in the sidebar.")
     if "conversation" in st.session_state:
         user_question = st.text_input(
             "Enter your question about the uploaded documents:"
