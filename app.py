@@ -2,7 +2,6 @@ import os
 import tempfile
 import re
 import streamlit as st
-from dotenv import load_dotenv
 
 from src.config import Config
 from src.log import setup_logging
