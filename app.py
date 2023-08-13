@@ -14,8 +14,10 @@ from src.prompts import QA_PROMPTS
 
 cfg_file = "./config/cfg_mac.yaml"
 
+
 def get_prompt(category, prompt_name):
     return QA_PROMPTS[category][prompt_name]["prompt"]
+
 
 def clean_document_chunks(chunks):
     """
@@ -176,7 +178,7 @@ def main():
                     value=100,
                     step=50,
                 )
-                
+
             if st.session_state.get("data_processed"):
                 if st.button(
                     "Reset App",
@@ -205,19 +207,26 @@ def main():
 
                     # Rerun the Streamlit app
                     st.experimental_rerun()
-                    
+
         with st.expander(":speech_balloon: Prompts", expanded=False):
             if not st.session_state.get("data_processed"):
                 # Dropdown to select a category
-                selected_category = st.selectbox("Choose a prompt category:", list(QA_PROMPTS.keys()))
+                selected_category = st.selectbox(
+                    "Choose a prompt category:", list(QA_PROMPTS.keys())
+                )
 
                 # Dropdown to select a prompt within the chosen category
-                selected_prompt_name = st.selectbox("Choose a prompt style:", list(QA_PROMPTS[selected_category].keys()))
-                selected_prompt = QA_PROMPTS[selected_category][selected_prompt_name]["prompt"]
-                
-                # Display the description of the selected prompt style
-                st.info(QA_PROMPTS[selected_category][selected_prompt_name]["description"])
+                selected_prompt_name = st.selectbox(
+                    "Choose a prompt style:", list(QA_PROMPTS[selected_category].keys())
+                )
+                selected_prompt = QA_PROMPTS[selected_category][selected_prompt_name][
+                    "prompt"
+                ]
 
+                # Display the description of the selected prompt style
+                st.info(
+                    QA_PROMPTS[selected_category][selected_prompt_name]["description"]
+                )
 
         # Document upload section - dissapears once documents are uploaded
         if not st.session_state.get("data_processed"):
@@ -276,7 +285,9 @@ def main():
                             # Initialize the retriever and chat using the saved vector store
                             retriever = db.retriever()
                             st.session_state.conversation = Chat(
-                                config=cfg, retriever=retriever, qa_prompt=selected_prompt
+                                config=cfg,
+                                retriever=retriever,
+                                qa_prompt=selected_prompt,
                             )
                             # Mark that data processing is complete
                             st.session_state.data_processed = True

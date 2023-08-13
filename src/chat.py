@@ -46,7 +46,13 @@ class Chat:
 
     """
 
-    def __init__(self, config, retriever=None, conversational=True, qa_prompt=prompts.CHAT_QA_PROMPT):
+    def __init__(
+        self,
+        config,
+        retriever=None,
+        conversational=True,
+        qa_prompt=prompts.CHAT_QA_PROMPT,
+    ):
         self.config = config
         self.retriever = retriever
         self.conversational = conversational
