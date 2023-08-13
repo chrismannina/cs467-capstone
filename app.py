@@ -11,10 +11,14 @@ from src.chat import Chat
 from src.utils import validate_openai_key
 from src.prompts import QA_PROMPTS
 
-CFG_FILE = "./config/cfg_mac.yaml"
+CFG_FILE = "./config/config.yaml"
 SAMPLE_DB_DIR = "./db_sample"
-SAMPLE_FILES = ["./files/sample/CS467_Schedule.pdf", "./files/sample/CS467_Syllabus.pdf"]
+SAMPLE_FILES = [
+    "./files/sample/CS467_Schedule.pdf",
+    "./files/sample/CS467_Syllabus.pdf",
+]
 OSU_CS467_DEMO = True
+
 
 def has_files_except_gitkeep(directory_path):
     """
@@ -27,8 +31,12 @@ def has_files_except_gitkeep(directory_path):
         bool: True if there are files other than .gitkeep, False otherwise.
     """
     # List all files in the directory
-    files = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
-    
+    files = [
+        f
+        for f in os.listdir(directory_path)
+        if os.path.isfile(os.path.join(directory_path, f))
+    ]
+
     # Filter out .gitkeep
     files = [f for f in files if f != ".gitkeep"]
 
@@ -38,7 +46,7 @@ def has_files_except_gitkeep(directory_path):
 
 # def load_sample_db(config, file_dir=SAMPLE_FILES_DIR, db_dir=SAMPLE_DB_DIR):
 #     """Load sample vector database that contains sample files for demo. If database directory does not
-#     exist, prepare documents, load database, and save. 
+#     exist, prepare documents, load database, and save.
 
 #     Args:
 #         file_dir (str, optional): Path to file directory. Defaults to SAMPLE_FILES_DIR.
@@ -56,12 +64,12 @@ def has_files_except_gitkeep(directory_path):
 #         # If db_dir exists, load the vector database
 #         vector_db = VectorStore()
 #         vector_db.load(db_dir)
-    
+
 #     return vector_db
 
 # def prepare_vector_db(config, file_dir, db_dir):
 #     """
-#     Process files in file_dir, extract text, split into chunks, generate embeddings, 
+#     Process files in file_dir, extract text, split into chunks, generate embeddings,
 #     and create a vector database.
 
 #     Args:
@@ -89,6 +97,7 @@ def has_files_except_gitkeep(directory_path):
 #             db.add_docs(doc.get_split_document())
 
 #     return db
+
 
 def clean_document_chunks(chunks):
     """
@@ -222,7 +231,7 @@ def main():
                 # Model selection
                 model_option = st.selectbox(
                     "Select the LLM Model",
-                    ["gpt-3.5-turbo", "gpt-3.5-turbo-16k", "gpt-4", "gpt-4-32k"],
+                    ["gpt-4", "gpt-4-32k", "gpt-3.5-turbo", "gpt-3.5-turbo-16k"],
                     index=0,
                 )
 
@@ -363,15 +372,29 @@ def main():
                             )
                             # Mark that data processing is complete
                             st.session_state.data_processed = True
-            if OSU_CS467_DEMO:               
+                            
+            if OSU_CS467_DEMO:
                 with st.expander(":floppy_disk: :orange[Load Demo]", expanded=False):
-                    st.markdown("Click button below to start application with sample files and guest API key to easily test application.")
-                    st.markdown("- Select the :orange[prompt] you want to use above (or leave as default). Try some from the 'Humor' category.")
-                    st.markdown("- Two PDFs already embedded, stored, and prepared for Q&A: **CS467 Syllabus** and **Schedule**.")
-                    st.markdown("- Guest API key provided for Q&A with **sample documents only**.")
-                    st.markdown("- Modify :orange[settings] above if preferred. Try changing the ChatGPT version.")
-                    st.markdown("- If you have your own API key, feel free to enter it and try out the application on your own documents!")
-                    # TODO: Will need to reset environment variable if user decides to use demo then reset app. Could cause a bug where they do not need their own API key.     
+                    st.markdown(
+                        "Click button below to start application with sample files and guest API key to easily test application."
+                    )
+                    st.markdown(
+                        "- Select the :orange[prompt] you want to use above (or leave as default). Try some from the 'Humor' category."
+                    )
+                    st.markdown(
+                        "- Two PDFs already embedded, stored, and prepared for Q&A: **CS467 Syllabus** and **Schedule**."
+                    )
+                    st.markdown(
+                        "- Guest API key provided for Q&A with **sample documents only**."
+                    )
+                    st.markdown(
+                        "- Modify :orange[settings] above if preferred. Try changing the ChatGPT version."
+                    )
+                    st.markdown(
+                        "- If you have your own API key, feel free to enter it and try out the application on your own documents!"
+                    )
+                    # TODO: May need to reset environment variable if user decides to use demo then reset app.
+                    # TODO: Need to check if that can cause a bug where they do not need their own API key.
                     if st.button(":beaver: :orange[OSU CS467 Demo]"):
                         try:
                             os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
@@ -380,7 +403,6 @@ def main():
                             st.error("Failure to set environment variable.", icon="🚨")
                             logger.error("Failure to set environment variable.")
                         with st.spinner("Processing"):
-
                             # Change configuration based on sliders
                             cfg.llm_model = model_option
                             cfg.temperature = temperature
@@ -397,8 +419,7 @@ def main():
                                 index = 0
                                 # Process each uploaded document
                                 for file_path in SAMPLE_FILES:
-                                    
-                                # for index, file_path in enumerate(SAMPLE_FILES_DIR):
+                                    # for index, file_path in enumerate(SAMPLE_FILES_DIR):
                                     # Create a Document instance for processing
                                     doc = Document(
                                         document_path=file_path,
@@ -438,8 +459,11 @@ def main():
             )
             if OSU_CS467_DEMO:
                 st.markdown("---")
-                st.markdown("""
-                            ##### <p style="text-align: center;">For OSU CS467 demo, use :orange[Load Demo] in the sidebar.</p>""", unsafe_allow_html=True)
+                st.markdown(
+                    """
+                            ##### <p style="text-align: center;">For OSU CS467 demo, use :orange[Load Demo] in the sidebar.</p>""",
+                    unsafe_allow_html=True,
+                )
             ##### For CS467 demo, use :orange[Load Demo] in the sidebar.")
     if "conversation" in st.session_state:
         user_question = st.text_input(
