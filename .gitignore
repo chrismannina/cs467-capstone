@@ -7,3 +7,4 @@ src/__pycache__
 /logs/*.log
 !/logs/.gitkeep
 .DS_Store
+.streamlit/secrets.toml
