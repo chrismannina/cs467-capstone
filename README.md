@@ -1,4 +1,4 @@
-# Medical Document Q&A Application
+# Document Q&A Application
 
 This application enables users to ask questions related to specific documents, particularly medical guidelines. It uses vector embeddings and similarity search to retrieve relevant sections of the documents and then utilizes a chat model to generate detailed answers.
 
@@ -7,6 +7,7 @@ This application enables users to ask questions related to specific documents, p
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
+   - [Streamlit Interface](#streamlit-interface)
 
 ## Features
 
@@ -14,7 +15,6 @@ This application enables users to ask questions related to specific documents, p
 - Ask questions related to the uploaded documents.
 - Receive precise answers and relevant document references.
 - Interactive Streamlit interface for ease of use.
-- CLI support for direct command-line interaction.
 
 ## Installation
 

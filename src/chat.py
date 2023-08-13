@@ -46,10 +46,17 @@ class Chat:
 
     """
 
-    def __init__(self, config, retriever=None, conversational=True):
+    def __init__(
+        self,
+        config,
+        retriever=None,
+        conversational=True,
+        qa_prompt=prompts.CHAT_QA_PROMPT,
+    ):
         self.config = config
         self.retriever = retriever
         self.conversational = conversational
+        self.qa_prompt = qa_prompt
         self.combine_docs_chain = self.__create_combine_docs_chain()
         self.qa_chain = self.__create_qa_chain()
         self.chat_history = []
@@ -111,10 +118,12 @@ class Chat:
                 input_variables=["chat_history", "question"],
                 template=prompts.CONDENSE_QUESTION_PROMPT,
             )
-            qa_prompt = PromptTemplate(
-                input_variables=["question", "context"], template=prompts.CHAT_QA_PROMPT
+            prompt = PromptTemplate(
+                input_variables=["question", "context"], template=self.qa_prompt
             )
-            combine_docs_chain_kwargs = {"prompt": qa_prompt}
+            print(prompt)
+            print(self.qa_prompt)
+            combine_docs_chain_kwargs = {"prompt": prompt}
             # Note if using memory = ConversationBufferMemory(...) for chat memory with return_messages=True you may
             # need to include input_key="question" and output_key="answer" as args to avoid errors.
             return ConversationalRetrievalChain.from_llm(
@@ -129,8 +138,8 @@ class Chat:
         else:
             llm = self.__create_llm()
             prompt = PromptTemplate(
-                input_variables=["context", "question"],
-                template=prompts.RETRIEVAL_QA_PROMPT,
+                input_variables=["question", "context"],
+                template=self.qa_prompt,
             )
             chain_type_kwargs = {"prompt": prompt}
             qa = RetrievalQA.from_chain_type(

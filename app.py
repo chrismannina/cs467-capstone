@@ -10,8 +10,13 @@ from src.document import Document
 from src.vector_store import VectorStore
 from src.chat import Chat
 from src.utils import validate_openai_key
+from src.prompts import QA_PROMPTS
 
 cfg_file = "./config/cfg_mac.yaml"
+
+
+def get_prompt(category, prompt_name):
+    return QA_PROMPTS[category][prompt_name]["prompt"]
 
 
 def clean_document_chunks(chunks):
@@ -151,23 +156,23 @@ def main():
 
                 # Temperature adjustment
                 temperature = st.slider(
-                    "Adjust LLM Temperature",
+                    "LLM Temperature",
                     min_value=0.0,
-                    max_value=2.0,
+                    max_value=1.0,
                     value=0.0,
                     step=0.1,
                 )
 
                 # Chunk size and overlap adjustment
                 chunk_size = st.slider(
-                    "Adjust Chunk Size",
+                    "Chunk Size",
                     min_value=100,
                     max_value=3000,
                     value=2000,
                     step=50,
                 )
                 chunk_overlap = st.slider(
-                    "Adjust Chunk Overlap",
+                    "Chunk Overlap",
                     min_value=0,
                     max_value=500,
                     value=100,
@@ -203,11 +208,31 @@ def main():
                     # Rerun the Streamlit app
                     st.experimental_rerun()
 
+        with st.expander(":speech_balloon: Prompts", expanded=False):
+            if not st.session_state.get("data_processed"):
+                # Dropdown to select a category
+                selected_category = st.selectbox(
+                    "Choose a prompt category:", list(QA_PROMPTS.keys())
+                )
+
+                # Dropdown to select a prompt within the chosen category
+                selected_prompt_name = st.selectbox(
+                    "Choose a prompt style:", list(QA_PROMPTS[selected_category].keys())
+                )
+                selected_prompt = QA_PROMPTS[selected_category][selected_prompt_name][
+                    "prompt"
+                ]
+
+                # Display the description of the selected prompt style
+                st.info(
+                    QA_PROMPTS[selected_category][selected_prompt_name]["description"]
+                )
+
         # Document upload section - dissapears once documents are uploaded
         if not st.session_state.get("data_processed"):
             with st.expander(":file_folder: Upload Documents", expanded=False):
                 uploaded_files = st.file_uploader(
-                    ":blue[Upload Medical PDFs]", accept_multiple_files=True
+                    ":violet[Upload PDFs]", accept_multiple_files=True
                 )
                 if st.button("Process Document") and uploaded_files:
                     if not os.getenv("OPENAI_API_KEY", None):
@@ -260,7 +285,9 @@ def main():
                             # Initialize the retriever and chat using the saved vector store
                             retriever = db.retriever()
                             st.session_state.conversation = Chat(
-                                config=cfg, retriever=retriever
+                                config=cfg,
+                                retriever=retriever,
+                                qa_prompt=selected_prompt,
                             )
                             # Mark that data processing is complete
                             st.session_state.data_processed = True
@@ -270,6 +297,7 @@ def main():
         with st.expander(":information_source: Getting Started", expanded=True):
             st.markdown("- Enter your OpenAI API key.")
             st.markdown("- Adjust settings if preferred.")
+            st.markdown("- Select prompt template you want to use.")
             st.markdown("- Upload your document(s).")
             st.markdown("- Ask a question about the uploaded document(s).")
             st.markdown(
