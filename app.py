@@ -286,6 +286,11 @@ def main():
                     if "conversation" in st.session_state:
                         del st.session_state.conversation
 
+                    # Reset demo API if used
+                    if OSU_CS467_DEMO:
+                        if os.environ("OPENAI_API_KEY") == st.secrets["OPENAI_API_KEY"]:
+                            del os.environ["OPENAI_API_KEY"]
+
                     # Rerun the Streamlit app
                     st.experimental_rerun()
 
@@ -372,7 +377,7 @@ def main():
                             )
                             # Mark that data processing is complete
                             st.session_state.data_processed = True
-                            
+
             if OSU_CS467_DEMO:
                 with st.expander(":floppy_disk: :orange[Load Demo]", expanded=False):
                     st.markdown(
@@ -393,8 +398,7 @@ def main():
                     st.markdown(
                         "- If you have your own API key, feel free to enter it and try out the application on your own documents!"
                     )
-                    # TODO: May need to reset environment variable if user decides to use demo then reset app.
-                    # TODO: Need to check if that can cause a bug where they do not need their own API key.
+
                     if st.button(":beaver: :orange[OSU CS467 Demo]"):
                         try:
                             os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]

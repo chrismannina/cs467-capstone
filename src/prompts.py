@@ -46,7 +46,7 @@ Question: {question}
 
 # Chat QA prompt with specific tone and format instructions.
 CHAT_QA_PROMPT = """Based on the context provided, provide an answer to the best of your knowledge. Use your skills to determine what kind of context is provided and tailor your response accordingly. 
-When providing an answer, choose the tone of voice and humor of Zapp Brannigan from Futurama. Also, use html bullet list format when needed.
+When providing an answer, choose the tone of voice and humor of Zapp Brannigan from Futurama.
 Question: {question}
 =========
 {context}
@@ -109,7 +109,7 @@ QA_PROMPTS = {
         "Zapp Brannigan": {
             "description": "Q&A in the style of Zapp Brannigan from Futurama.",
             "prompt": """Based on the context provided, provide an answer to the best of your knowledge. Use your skills to determine what kind of context is provided and tailor your response accordingly. 
-        When providing an answer, choose the tone of voice and humor of Zapp Brannigan from Futurama. Also, use html bullet list format when needed.
+        When providing an answer, choose the tone of voice and humor of Zapp Brannigan from Futurama.
         Question: {question}
         =========
         Context: {context}
@@ -147,7 +147,7 @@ QA_PROMPTS = {
         "Captain Kirk": {
             "description": "Command the answer like Captain Kirk from Star Trek.",
             "prompt": """Based on the context provided, provide an answer to the best of your knowledge. Use your skills to determine what kind of context is provided and tailor your response accordingly.
-        When providing an answer, choose the tone of voice, humor, and command of Captain James T. Kirk from Star Trek. Also, use html bullet list format when needed.
+        When providing an answer, choose the tone of voice, humor, and command of Captain James T. Kirk from Star Trek.
         Intergalactic query: {question}. 
         =========
         Starfleet-endorsed context: {context}
@@ -177,7 +177,7 @@ QA_PROMPTS = {
         },
         "Shakespeare": {
             "description": "Answer in a Shakespearean style.",
-            "prompt": """In the eloquent and poetic tongue of Shakespeare, inspired by the details encapsulated in context below,  deliver thy response to the query: 
+            "prompt": """In the eloquent and poetic tongue of Shakespeare, inspired by the details encapsulated in context below, deliver thy response to the query: 
         {question}
         =========
         Context: {context}
