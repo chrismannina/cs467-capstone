@@ -334,11 +334,16 @@ def main():
 
                             # Initiate vectorstore
                             db = VectorStore()
-
+                            incorrect_file_ext = False
                             # Process each uploaded document
                             for index, doc_path in enumerate(uploaded_files):
                                 # Extract the extension of the uploaded file
                                 file_extension = os.path.splitext(doc_path.name)[1]
+                                if file_extension != ".pdf":
+                                    st.warning("Please upload PDF documents only.", icon="⚠️")
+                                    incorrect_file_ext = True
+                                    # Rerun the Streamlit app
+                                    # st.experimental_rerun()
 
                                 # Create a temporary file to store the uploaded document
                                 temp_file = tempfile.NamedTemporaryFile(
@@ -365,18 +370,19 @@ def main():
                                 if temp_file_path:
                                     os.remove(temp_file_path)
 
-                            # Save the vector store
-                            db.save()
+                            if not incorrect_file_ext:
+                                # Save the vector store
+                                db.save()
 
-                            # Initialize the retriever and chat using the saved vector store
-                            retriever = db.retriever()
-                            st.session_state.conversation = Chat(
-                                config=cfg,
-                                retriever=retriever,
-                                qa_prompt=selected_prompt,
-                            )
-                            # Mark that data processing is complete
-                            st.session_state.data_processed = True
+                                # Initialize the retriever and chat using the saved vector store
+                                retriever = db.retriever()
+                                st.session_state.conversation = Chat(
+                                    config=cfg,
+                                    retriever=retriever,
+                                    qa_prompt=selected_prompt,
+                                )
+                                # Mark that data processing is complete
+                                st.session_state.data_processed = True
 
             if OSU_CS467_DEMO:
                 with st.expander(":floppy_disk: :orange[Load Demo]", expanded=False):
@@ -456,7 +462,7 @@ def main():
             st.markdown("- Enter your OpenAI API key.")
             st.markdown("- Adjust settings if preferred.")
             st.markdown("- Select prompt template you want to use.")
-            st.markdown("- Upload your document(s).")
+            st.markdown("- Upload your **PDF document(s)**.")
             st.markdown("- Ask a question about the uploaded document(s).")
             st.markdown(
                 "- Get response and view retrieved document chunks for more context."
