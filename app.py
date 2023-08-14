@@ -399,7 +399,7 @@ def main():
                         "- If you have your own API key, feel free to enter it and try out the application on your own documents!"
                     )
 
-                    if st.button(":beaver: :orange[OSU CS467 Demo]"):
+                    if st.button(":orange[OSU CS467 Demo]"):
                         try:
                             os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
                             logger.info("OpenAI key set for demo.")
@@ -475,7 +475,8 @@ def main():
         )
 
         if user_question:
-            handle_userinput(user_question, st.session_state.conversation)
+            with st.spinner('Processing your question...'):
+                handle_userinput(user_question, st.session_state.conversation)
 
 
 if __name__ == "__main__":
