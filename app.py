@@ -288,7 +288,7 @@ def main():
 
                     # Reset demo API if used
                     if OSU_CS467_DEMO:
-                        if os.environ("OPENAI_API_KEY") == st.secrets["OPENAI_API_KEY"]:
+                        if os.getenv("OPENAI_API_KEY") == st.secrets["OPENAI_API_KEY"]:
                             del os.environ["OPENAI_API_KEY"]
 
                     # Rerun the Streamlit app
