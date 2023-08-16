@@ -42,7 +42,7 @@
 *"Let's delve into some highlights. Our system allows users to upload medical documents, segment them, and pose direct questions. With the integration of vector stores and language models, users receive insightful answers, bridging the gap between complex literature and concise responses."*
 
 **Slide 5**: 
-*"The development journey was an amalgamation of innovation and adaptation. We employed Python, coupled with libraries such as Streamlit, FAISS, Chroma, and OpenAI. The project's architecture evolved to incorporate vector stores and modular prompts, enhancing its efficiency and accuracy."*
+*"The development journey was an amalgamation of innovation and adaptation. We employed Python, coupled with libraries such as Streamlit, FAISS, and OpenAI. The project's architecture evolved to incorporate vector stores and modular prompts, enhancing its efficiency and accuracy."*
 
 **Slide 6**: 
 *"Development was not without its challenges. We grappled with the unstructured nature of PDF text extraction and the inherent limitations of language models. However, these challenges paved the way for learning and growth, pushing us to innovate and refine our approach."*
