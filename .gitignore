@@ -1,4 +1,5 @@
 .env
+/Users/chrismannina/cs-projects/school/cs467-capstone/config/.env
 /scratch
 /myenv
 /__pychache__
@@ -8,3 +9,5 @@ src/__pycache__
 !/logs/.gitkeep
 .DS_Store
 .streamlit/secrets.toml
+/Users/chrismannina/cs-projects/school/cs467-capstone/medical_document_qa_chris_mannina.zip
+/Users/chrismannina/cs-projects/school/cs467-capstone/medical_document_qa_chris_mannina
