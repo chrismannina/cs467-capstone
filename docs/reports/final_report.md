@@ -3,7 +3,7 @@
 - **Project Name**: Medical Document Querying Using Language Models and Vector Stores
 - **Team Member**: Chris Mannina
 - **Course**: CS467 Capstone, Oregon State University
-- **Date**: August 15th, 2023
+- **Date**: August 16th, 2023
 
 ---
 
