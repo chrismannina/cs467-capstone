@@ -67,7 +67,7 @@ The project will require the following technologies:
 | 4    | Implement embedding models and vector database. Using OpenAI's text-embedding-ada-002 to start, have the model vectorize the ingested document and store in Chroma or Pinecone. | 10                    |
 | 5    | Test and validate individual components. Continue development. Work on stretch goals if time permits. Additional application features will be added around this time as well.   | 10                    |
 | 6    | Integrate all components and test.                                                                                                                                              | 10                    |
-| 7    | Conduct end-to-end system tests. Meet with Clinical Pharmacists for testing and accuracy.                                                                                       | 10                    |
+| 7    | Conduct end-to-end system tests. Meet with Clinical Pharmacists for testing and accuracys.                                                                                       | 10                    |
 | 8    | Implement multi-document capabilities if possible and experiment on the trade-off between the number of documents and accuracy.                                                 | 10                    |
 | 9    | Fine-tune the system based on test results (change embedding models, consider training embedded models, etc.)                                                                   | 10                    |
 | 10   | Prepare documentation and reports.                                                                                                                                              | 10                    |

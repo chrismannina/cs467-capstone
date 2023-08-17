@@ -44,61 +44,6 @@ def has_files_except_gitkeep(directory_path):
     return bool(files)
 
 
-# def load_sample_db(config, file_dir=SAMPLE_FILES_DIR, db_dir=SAMPLE_DB_DIR):
-#     """Load sample vector database that contains sample files for demo. If database directory does not
-#     exist, prepare documents, load database, and save.
-
-#     Args:
-#         file_dir (str, optional): Path to file directory. Defaults to SAMPLE_FILES_DIR.
-#         db_dir (str, optional): Path to vector database directory. Defaults to SAMPLE_DB_DIR.
-
-#     Returns:
-#         object: Loaded vector database.
-#     """
-#     # Check if db_dir exists
-#     if not os.path.exists(db_dir):
-#         # If not, prepare the documents, create the vector database, and save
-#         vector_db = prepare_vector_db(config, file_dir, db_dir)
-#         vector_db.save()
-#     else:
-#         # If db_dir exists, load the vector database
-#         vector_db = VectorStore()
-#         vector_db.load(db_dir)
-
-#     return vector_db
-
-# def prepare_vector_db(config, file_dir, db_dir):
-#     """
-#     Process files in file_dir, extract text, split into chunks, generate embeddings,
-#     and create a vector database.
-
-#     Args:
-#         file_dir (str): The directory where the sample files are stored.
-
-#     Returns:
-#         VectorStore: A vector database with the embeddings of the document chunks.
-#     """
-#     # Initiate vectorstore
-#     db = VectorStore(folder_path=db_dir)
-
-#     # Process each uploaded document
-#     for index, file_path in enumerate(file_dir):
-#         # Create a Document instance for processing
-#         doc = Document(
-#             document_path=file_path,
-#             split_method=config.split_method,
-#             chunk_size=int(config.chunk_size),
-#             chunk_overlap=int(config.chunk_overlap),
-#         )
-#         # If it's the first document, create a new vector store, else add to the existing one
-#         if index == 0:
-#             db.create_from_docs(doc.get_split_document())
-#         else:
-#             db.add_docs(doc.get_split_document())
-
-#     return db
-
-
 def clean_document_chunks(chunks):
     """
     Clean the content of document chunks by removing unwanted characters and patterns.
@@ -202,9 +147,10 @@ def main():
 
             # If "Submit" button is pressed, set the API key.
             if submit_button.button("Submit Key", help="Set your API key."):
-                if api_key_input == "cant stop":
+                if api_key_input == "osu-cs467-summer-2023":
                     st.session_state.api_key = api_key_input
-                    st.success("addicted to the shingdig", icon="🌶️")
+                    os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+                    st.success("Test API key loaded.", icon="🌶️")
                 elif validate_openai_key(api_key_input):
                     st.session_state.api_key = api_key_input
                     os.environ["OPENAI_API_KEY"] = api_key_input
@@ -286,6 +232,11 @@ def main():
                     if "conversation" in st.session_state:
                         del st.session_state.conversation
 
+                    # Reset demo API if used
+                    if OSU_CS467_DEMO:
+                        if os.getenv("OPENAI_API_KEY") == st.secrets["OPENAI_API_KEY"]:
+                            del os.environ["OPENAI_API_KEY"]
+
                     # Rerun the Streamlit app
                     st.experimental_rerun()
 
@@ -329,11 +280,18 @@ def main():
 
                             # Initiate vectorstore
                             db = VectorStore()
-
+                            incorrect_file_ext = False
                             # Process each uploaded document
                             for index, doc_path in enumerate(uploaded_files):
                                 # Extract the extension of the uploaded file
                                 file_extension = os.path.splitext(doc_path.name)[1]
+                                if file_extension != ".pdf":
+                                    st.warning(
+                                        "Please upload PDF documents only.", icon="⚠️"
+                                    )
+                                    incorrect_file_ext = True
+                                    # Rerun the Streamlit app
+                                    # st.experimental_rerun()
 
                                 # Create a temporary file to store the uploaded document
                                 temp_file = tempfile.NamedTemporaryFile(
@@ -360,19 +318,20 @@ def main():
                                 if temp_file_path:
                                     os.remove(temp_file_path)
 
-                            # Save the vector store
-                            db.save()
+                            if not incorrect_file_ext:
+                                # Save the vector store
+                                db.save()
 
-                            # Initialize the retriever and chat using the saved vector store
-                            retriever = db.retriever()
-                            st.session_state.conversation = Chat(
-                                config=cfg,
-                                retriever=retriever,
-                                qa_prompt=selected_prompt,
-                            )
-                            # Mark that data processing is complete
-                            st.session_state.data_processed = True
-                            
+                                # Initialize the retriever and chat using the saved vector store
+                                retriever = db.retriever()
+                                st.session_state.conversation = Chat(
+                                    config=cfg,
+                                    retriever=retriever,
+                                    qa_prompt=selected_prompt,
+                                )
+                                # Mark that data processing is complete
+                                st.session_state.data_processed = True
+
             if OSU_CS467_DEMO:
                 with st.expander(":floppy_disk: :orange[Load Demo]", expanded=False):
                     st.markdown(
@@ -393,9 +352,8 @@ def main():
                     st.markdown(
                         "- If you have your own API key, feel free to enter it and try out the application on your own documents!"
                     )
-                    # TODO: May need to reset environment variable if user decides to use demo then reset app.
-                    # TODO: Need to check if that can cause a bug where they do not need their own API key.
-                    if st.button(":beaver: :orange[OSU CS467 Demo]"):
+
+                    if st.button(":orange[OSU CS467 Demo]"):
                         try:
                             os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
                             logger.info("OpenAI key set for demo.")
@@ -452,7 +410,7 @@ def main():
             st.markdown("- Enter your OpenAI API key.")
             st.markdown("- Adjust settings if preferred.")
             st.markdown("- Select prompt template you want to use.")
-            st.markdown("- Upload your document(s).")
+            st.markdown("- Upload your **PDF document(s)**.")
             st.markdown("- Ask a question about the uploaded document(s).")
             st.markdown(
                 "- Get response and view retrieved document chunks for more context."
@@ -471,7 +429,8 @@ def main():
         )
 
         if user_question:
-            handle_userinput(user_question, st.session_state.conversation)
+            with st.spinner("Processing your question..."):
+                handle_userinput(user_question, st.session_state.conversation)
 
 
 if __name__ == "__main__":

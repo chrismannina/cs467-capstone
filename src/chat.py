@@ -121,8 +121,6 @@ class Chat:
             prompt = PromptTemplate(
                 input_variables=["question", "context"], template=self.qa_prompt
             )
-            print(prompt)
-            print(self.qa_prompt)
             combine_docs_chain_kwargs = {"prompt": prompt}
             # Note if using memory = ConversationBufferMemory(...) for chat memory with return_messages=True you may
             # need to include input_key="question" and output_key="answer" as args to avoid errors.
